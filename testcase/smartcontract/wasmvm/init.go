@@ -5,6 +5,7 @@ import (
 )
 
 func TestWasmVM() {
-	testframework.TFramework.RegTestCase("TestWasmJsonContract", TestWasmJsonContract)
-	testframework.TFramework.RegTestCase("TestWasmRawContract", TestWasmRawContract)
+	//testframework.TFramework.RegTestCase("TestWasmJsonContract", TestWasmJsonContract)
+	//testframework.TFramework.RegTestCase("TestWasmRawContract", TestWasmRawContract)
+	testframework.TFramework.RegTestCase("TestCallWasmJsonContract", TestCallWasmJsonContract)
 }

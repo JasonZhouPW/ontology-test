@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"time"
 	"math/big"
-	"github.com/ontio/ontology/smartcontract/service/wasm"
+	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 )
 
 const (
@@ -43,6 +43,7 @@ func TestWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 	ctx.LogInfo("TestWasmJsonContract deploy TxHash:%x", txHash)
 
 	address,err := GetWasmContractAddress(filePath+"/contract.wasm")
+	fmt.Printf("TestWasmJsonContract address is %s\n ",address.ToHexString())
 	if err != nil {
 		ctx.LogError("TestWasmJsonContract GetWasmContractAddress error:%s", err)
 		return false
@@ -59,11 +60,48 @@ func TestWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 		ctx.LogError("TestWasmJsonContract init GetSmartContractEvent error:%s", err)
 		return false
 	}
-	ctx.LogInfo("TestNep5Contract init notify %s", notifies)
 	fmt.Println("============result is===============")
 	bs ,_:= common.HexToBytes(notifies[0].States[0].(string))
 
 	fmt.Printf("+==========%s\n",string(bs))
+
+	txHash,err = invokeAddStorage(ctx,admin,address)
+	if err != nil {
+		ctx.LogError("TestWasmJsonContract invokeAddStorage error:%s", err)
+		return false
+	}
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestWasmJsonContract invokeAddStorage success")
+	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	if err != nil {
+		ctx.LogError("TestWasmJsonContract invokeAddStorage GetSmartContractEvent error:%s", err)
+		return false
+	}
+	fmt.Println("============result is===============")
+	bs ,_= common.HexToBytes(notifies[0].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
+
+	txHash,err = invokeGetStorage(ctx,admin,address)
+	if err != nil {
+		ctx.LogError("TestWasmJsonContract invokeGetStorage error:%s", err)
+		return false
+	}
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestWasmJsonContract invokeGetStorage success")
+	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	if err != nil {
+		ctx.LogError("TestWasmJsonContract invokeGetStorage GetSmartContractEvent error:%s", err)
+		return false
+	}
+	fmt.Println("============result is===============")
+	bs ,_= common.HexToBytes(notifies[0].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
+
+
 	return true
 }
 
@@ -74,7 +112,7 @@ func invokeContract(ctx *testframework.TestFrameworkContext, acc *account.Accoun
 	params[0] = 20
 	params[1] = 30
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),address,method,wasm.Json,1,params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),address,method, wasmvm.Json,1,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -82,6 +120,37 @@ func invokeContract(ctx *testframework.TestFrameworkContext, acc *account.Accoun
 	}
 	return txHash, nil
 }
+
+func invokeAddStorage(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address)(common.Uint256, error){
+	method := "addStorage"
+	params := make([]interface{},2)
+	params[0] = "TestKey"
+	params[1] = "Hello World"
+	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),address,method, wasmvm.Json,1,params)
+	//WaitForGenerateBlock
+	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
+	if err != nil {
+		return common.Uint256{}, fmt.Errorf("WaitForGenerateBlock error:%s", err)
+	}
+	return txHash, nil
+}
+
+func invokeGetStorage(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address)(common.Uint256, error){
+	method := "getStorage"
+	params := make([]interface{},1)
+	params[0] = "TestKey"
+
+	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),address,method, wasmvm.Json,1,params)
+	//WaitForGenerateBlock
+	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
+	if err != nil {
+		return common.Uint256{}, fmt.Errorf("WaitForGenerateBlock error:%s", err)
+	}
+	return txHash, nil
+}
+
 
 func deployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *account.Account) (common.Uint256, error){
 

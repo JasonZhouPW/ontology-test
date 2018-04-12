@@ -171,5 +171,6 @@ func GetWasmContractAddress(path string) (common.Address,error){
 	}
 
 	codeHash := common.ToHexString(code)
+	fmt.Println("codehash is %s\n",codeHash)
 	return  utils.GetContractAddress(codeHash,types.WASMVM),nil
 }

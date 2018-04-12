@@ -5,7 +5,7 @@ import (
 	"github.com/ontio/ontology/account"
 	"github.com/ontio/ontology/common"
 	"math/big"
-	"github.com/ontio/ontology/smartcontract/service/wasm"
+	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 	"time"
 	"fmt"
 )
@@ -72,7 +72,7 @@ func invokeRawContract(ctx *testframework.TestFrameworkContext, acc *account.Acc
 	params[0] = 20
 	params[1] = 30
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),contractAddress,method,wasm.Raw,params,1,false)
-	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),contractAddress,method,wasm.Raw,1,params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(acc,new(big.Int),contractAddress,method, wasmvm.Raw,1,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
