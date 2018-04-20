@@ -42,13 +42,36 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 		ctx.LogError("TestCallWasmJsonContract GetWasmContractAddress error:%s", err)
 		return false
 	}
-/*	txHash,err = invokeCallContract(ctx,admin,address)
+	txHash,err = invokeCallContract(ctx,admin,address)
 	if err != nil {
 		ctx.LogError("TestCallWasmJsonContract invokeCallContract error:%s", err)
 		return false
 	}
 	ctx.LogInfo("invokeContract: %x\n", txHash)
 	ctx.LogInfo("TestCallWasmJsonContract invokeCallContract success")
+	notifies, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	if err != nil {
+		ctx.LogError("TestCallWasmJsonContract init GetSmartContractEvent error:%s", err)
+		return false
+	}
+	fmt.Println("============result is===============")
+	bs ,_:= common.HexToBytes(notifies[0].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
+	fmt.Println("============result is===============")
+	bs ,_= common.HexToBytes(notifies[1].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
+
+
+	/*txHash,err = invokeCallOffchainContract(ctx,admin,address)
+	if err != nil {
+		ctx.LogError("TestCallWasmJsonContract invokeCallContract error:%s", err)
+		return false
+	}
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestCallWasmJsonContract invokeCallContract success")
+
 	notifies, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestCallWasmJsonContract init GetSmartContractEvent error:%s", err)
@@ -62,29 +85,6 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 	bs ,_= common.HexToBytes(notifies[1].States[0].(string))
 
 	fmt.Printf("+==========%s\n",string(bs))*/
-
-
-	txHash,err = invokeCallOffchainContract(ctx,admin,address)
-	if err != nil {
-		ctx.LogError("TestCallWasmJsonContract invokeCallContract error:%s", err)
-		return false
-	}
-	ctx.LogInfo("invokeContract: %x\n", txHash)
-	ctx.LogInfo("TestCallWasmJsonContract invokeCallContract success")
-
-	notifies, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
-	if err != nil {
-		ctx.LogError("TestCallWasmJsonContract init GetSmartContractEvent error:%s", err)
-		return false
-	}
-	fmt.Println("============result is===============")
-	bs ,_:= common.HexToBytes(notifies[0].States[0].(string))
-
-	fmt.Printf("+==========%s\n",string(bs))
-	fmt.Println("============result is===============")
-	bs ,_= common.HexToBytes(notifies[1].States[0].(string))
-
-	fmt.Printf("+==========%s\n",string(bs))
 
 
 	return true
