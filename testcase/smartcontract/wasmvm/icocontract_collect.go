@@ -7,6 +7,7 @@ import (
 
 func TestICOContractCollect(ctx *testframework.TestFrameworkContext) bool {
 	admin, err := ctx.GetDefaultAccount()
+
 	if err != nil {
 		ctx.LogError("TestICOContractCollect wallet.GetDefaultAccount error:%s", err)
 		return false
