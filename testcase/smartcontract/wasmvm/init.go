@@ -27,5 +27,4 @@ func TestWasmVM() {
 	testframework.TFramework.RegTestCase("TestBlockApi", TestHeaderApi)
 	//test transactionapi
 	testframework.TFramework.RegTestCase("TestTransactionApi", TestTransactionApi)
-
 }
