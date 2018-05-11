@@ -1,19 +1,20 @@
 package wasmvm
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/account"
 	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 	"time"
+	"encoding/json"
 )
 
 func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 	admin, err := ctx.GetDefaultAccount()
 	if err != nil {
 		ctx.LogError("TestDomainContract wallet.GetDefaultAccount error:%s", err)
+
 		return false
 	}
 
@@ -33,7 +34,7 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	txHash, err = getHeaderHashByHeight(ctx, admin, address, 1)
+	txHash,err = getHeaderHashByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getHeaderHashByHeight error:%s", err)
 		return false
@@ -49,6 +50,7 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getHeaderHashByHeight return notifies count error!")
 		return false
 	}
@@ -61,11 +63,12 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 	err = json.Unmarshal([]byte(s), ret)
 	if err != nil {
 		fmt.Printf("error is %s\n", err.Error())
+
 	}
 	headerhash := ret.Pval
-	fmt.Printf("header hash is %s\n", headerhash)
+	fmt.Printf("header hash is %s\n",headerhash)
 
-	txHash, err = getHeaderVersionByHeight(ctx, admin, address, 1)
+	txHash,err = getHeaderVersionByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getHeaderVersionByHeight error:%s", err)
 		return false
@@ -81,15 +84,18 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getHeaderVersionByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderVersionByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getHeaderVersionByHash(ctx, admin, address, headerhash)
+
+	txHash,err = getHeaderVersionByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getHeaderVersionByHash error:%s", err)
 		return false
@@ -105,15 +111,18 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getHeaderVersionByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderVersionByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getHeaderPrevHashByHeight(ctx, admin, address, 1)
+
+	txHash,err = getHeaderPrevHashByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHeight error:%s", err)
 		return false
@@ -129,15 +138,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderPrevHashByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getHeaderPrevHashByHash(ctx, admin, address, headerhash)
+	txHash,err = getHeaderPrevHashByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHash error:%s", err)
 		return false
@@ -153,15 +164,18 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderPrevHashByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getMerkelRootByHeight(ctx, admin, address, 1)
+
+	txHash,err = getMerkelRootByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getMerkelRootByHeight error:%s", err)
 		return false
@@ -177,15 +191,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getMerkelRootByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getMerkelRootByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getMerkelRootByHash(ctx, admin, address, headerhash)
+	txHash,err = getMerkelRootByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getMerkelRootByHash error:%s", err)
 		return false
@@ -201,15 +217,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getMerkelRootByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getMerkelRootByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getTimestampByHeight(ctx, admin, address, 1)
+	txHash,err = getTimestampByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getTimestampByHeight error:%s", err)
 		return false
@@ -225,15 +243,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getTimestampByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getTimestampByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getTimestampByHash(ctx, admin, address, headerhash)
+	txHash,err = getTimestampByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getTimestampByHash error:%s", err)
 		return false
@@ -249,15 +269,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getTimestampByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getTimestampByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getIndexByHash(ctx, admin, address, headerhash)
+	txHash,err = getIndexByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getIndexByHash error:%s", err)
 		return false
@@ -273,15 +295,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getIndexByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getIndexByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getConsensusDataByHeight(ctx, admin, address, 1)
+	txHash,err = getConsensusDataByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getConsensusDataByHeight error:%s", err)
 		return false
@@ -297,15 +321,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getConsensusDataByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getConsensusDataByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getConsensusDataByHash(ctx, admin, address, headerhash)
+	txHash,err = getConsensusDataByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getConsensusDataByHash error:%s", err)
 		return false
@@ -321,15 +347,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getConsensusDataByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getConsensusDataByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getNextConsensusByHeight(ctx, admin, address, 1)
+	txHash,err = getNextConsensusByHeight(ctx,admin,address,1)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getNextConsensusByHeight error:%s", err)
 		return false
@@ -345,15 +373,17 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getNextConsensusByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getNextConsensusByHeight ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = getNextConsensusByHash(ctx, admin, address, headerhash)
+	txHash,err = getNextConsensusByHash(ctx,admin,address,headerhash)
 	if err != nil {
 		ctx.LogError("TestHeaderApi getNextConsensusByHash error:%s", err)
 		return false
@@ -369,25 +399,28 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestHeaderApi getNextConsensusByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getNextConsensusByHash ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
+
 
 	return true
 }
 
-func getHeaderHashByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getHeaderHashByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getHeaderHashByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -397,14 +430,14 @@ func getHeaderHashByHeight(ctx *testframework.TestFrameworkContext, acc *account
 
 }
 
-func getHeaderVersionByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getHeaderVersionByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getHeaderVersionByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -414,14 +447,14 @@ func getHeaderVersionByHeight(ctx *testframework.TestFrameworkContext, acc *acco
 
 }
 
-func getHeaderVersionByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getHeaderVersionByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getHeaderVersionByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -431,14 +464,15 @@ func getHeaderVersionByHash(ctx *testframework.TestFrameworkContext, acc *accoun
 
 }
 
-func getHeaderPrevHashByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+
+func getHeaderPrevHashByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getPrevHashByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -448,14 +482,14 @@ func getHeaderPrevHashByHeight(ctx *testframework.TestFrameworkContext, acc *acc
 
 }
 
-func getHeaderPrevHashByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getHeaderPrevHashByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getPrevHashByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -465,14 +499,14 @@ func getHeaderPrevHashByHash(ctx *testframework.TestFrameworkContext, acc *accou
 
 }
 
-func getMerkelRootByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getMerkelRootByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getMerkelRootByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -482,14 +516,14 @@ func getMerkelRootByHeight(ctx *testframework.TestFrameworkContext, acc *account
 
 }
 
-func getMerkelRootByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getMerkelRootByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getMerkelRootByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -499,14 +533,14 @@ func getMerkelRootByHash(ctx *testframework.TestFrameworkContext, acc *account.A
 
 }
 
-func getTimestampByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getTimestampByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getTimestampByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -516,14 +550,14 @@ func getTimestampByHeight(ctx *testframework.TestFrameworkContext, acc *account.
 
 }
 
-func getTimestampByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getTimestampByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getTimestampByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -533,14 +567,14 @@ func getTimestampByHash(ctx *testframework.TestFrameworkContext, acc *account.Ac
 
 }
 
-func getIndexByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getIndexByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getIndexByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -550,14 +584,14 @@ func getIndexByHash(ctx *testframework.TestFrameworkContext, acc *account.Accoun
 
 }
 
-func getConsensusDataByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getConsensusDataByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getConsensusDataByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -567,14 +601,14 @@ func getConsensusDataByHeight(ctx *testframework.TestFrameworkContext, acc *acco
 
 }
 
-func getConsensusDataByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getConsensusDataByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getConsensusDataByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -584,14 +618,14 @@ func getConsensusDataByHash(ctx *testframework.TestFrameworkContext, acc *accoun
 
 }
 
-func getNextConsensusByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, height int) (common.Uint256, error) {
+func getNextConsensusByHeight(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,height int)(common.Uint256, error) {
 
 	method := "getNextConsensusByHeight"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = height
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -601,14 +635,14 @@ func getNextConsensusByHeight(ctx *testframework.TestFrameworkContext, acc *acco
 
 }
 
-func getNextConsensusByHash(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, hash string) (common.Uint256, error) {
+func getNextConsensusByHash(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,hash string)(common.Uint256, error) {
 
 	method := "getNextConsensusByHash"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = hash
 
 	//txHash,err := InvokeWasmVMContract(ctx,acc,new(big.Int),address,method,wasm.Json,params,1,false)
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Raw, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Raw,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {

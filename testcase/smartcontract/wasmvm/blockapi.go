@@ -21,6 +21,7 @@ type Result struct {
 var blockhash string
 var height = 1
 
+
 func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 	admin, err := ctx.GetDefaultAccount()
 	if err != nil {
