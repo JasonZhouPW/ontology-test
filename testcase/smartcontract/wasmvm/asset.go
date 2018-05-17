@@ -1,10 +1,11 @@
 package wasmvm
 
 import (
+
+	"github.com/ontio/ontology/common"
 	"fmt"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/account"
-	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 	"time"
 )
@@ -37,6 +38,8 @@ func TestAssetContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeInit success")
 	notifies, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeInit error:%s", err)
@@ -51,11 +54,16 @@ func TestAssetContract(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	txHash, err = invokeTotalSupply(ctx, admin, address)
+
 	if err != nil {
 		ctx.LogError("TestAssetContract invokeTotalSupply error:%s", err)
 		return false
 	}
 
+
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeTotalSupply success")
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
@@ -67,12 +75,22 @@ func TestAssetContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	txHash, err = invokeBalanceOf(ctx, admin, address, "00000001")
+	ctx.LogInfo("TestAssetContract invokeTotalSupply notify %s", notifies)
+	fmt.Println("============invokeTotalSupply result is===============")
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
+
+	txHash,err = invokeBalanceOf(ctx,admin,address,"00000001")
 	if err != nil {
 		ctx.LogError("TestAssetContract invokeBalanceOf error:%s", err)
 		return false
 	}
 
+
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeBalanceOf success")
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
@@ -90,6 +108,9 @@ func TestAssetContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeBalanceOf success")
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
@@ -103,47 +124,56 @@ func TestAssetContract(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	txHash, err = invokeBalanceOf(ctx, admin, address, "00000001")
+
 	if err != nil {
 		ctx.LogError("TestAssetContract invokeBalanceOf error:%s", err)
 		return false
 	}
 
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeBalanceOf success")
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
 
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
+	bs, _ = common.HexToBytes(notifies.Notify[0].States[0].(string))
 	if bs == nil {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
 
-	txHash, err = invokeBalanceOf(ctx, admin, address, "00000002")
+	txHash,err = invokeBalanceOf(ctx,admin,address,"00000002")
 	if err != nil {
 		ctx.LogError("TestAssetContract invokeBalanceOf error:%s", err)
 		return false
 	}
 
+
+	ctx.LogInfo("invokeContract: %x\n", txHash)
+	ctx.LogInfo("TestAssetContract invokeBalanceOf success")
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
 
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
-		return false
-	}
+	ctx.LogInfo("TestAssetContract invokeBalanceOf notify %s", notifies)
+	fmt.Println("============00000002 result is===============")
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+
+	fmt.Printf("+==========%s\n",string(bs))
 
 	return true
 }
 
-func invokeInit(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address) (common.Uint256, error) {
+
+
+func invokeInit(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address) (common.Uint256, error) {
 	method := "init"
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, byte(1), address, method, wasmvm.Json, nil)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,byte(1),address,method, wasmvm.Json,nil)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -152,9 +182,10 @@ func invokeInit(ctx *testframework.TestFrameworkContext, acc *account.Account, a
 	return txHash, nil
 }
 
-func invokeTotalSupply(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address) (common.Uint256, error) {
+
+func invokeTotalSupply(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address) (common.Uint256, error) {
 	method := "totalSupply"
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, byte(1), address, method, wasmvm.Json, nil)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,byte(1),address,method, wasmvm.Json,nil)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -163,12 +194,13 @@ func invokeTotalSupply(ctx *testframework.TestFrameworkContext, acc *account.Acc
 	return txHash, nil
 }
 
-func invokeBalanceOf(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, accountaddress string) (common.Uint256, error) {
+
+func invokeBalanceOf(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,accountaddress string) (common.Uint256, error) {
 	method := "balanceOf"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = accountaddress
 
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, byte(1), address, method, wasmvm.Json, params)
+	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Json, params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -177,14 +209,16 @@ func invokeBalanceOf(ctx *testframework.TestFrameworkContext, acc *account.Accou
 	return txHash, nil
 }
 
-func invokeTransfer(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address, from, to string, amount int) (common.Uint256, error) {
+
+func invokeTransfer(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address,from,to string,amount int) (common.Uint256, error) {
 	method := "transfer"
-	params := make([]interface{}, 3)
+	params := make([]interface{},3)
 	params[0] = from
 	params[1] = to
 	params[2] = amount
 
 	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Json, params)
+
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {

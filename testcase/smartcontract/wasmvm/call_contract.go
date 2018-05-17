@@ -1,23 +1,24 @@
 package wasmvm
 
 import (
-	"errors"
 	"fmt"
+	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/account"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology/smartcontract/service/wasmvm"
-	"github.com/ontio/ontology/smartcontract/types"
 	"io/ioutil"
+	"errors"
+	"github.com/ontio/ontology/smartcontract/types"
 	"time"
+	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 )
 
-func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool {
+func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 	admin, err := ctx.GetDefaultAccount()
 	if err != nil {
-		ctx.LogError("TestBlockApi wallet.GetDefaultAccount error:%s", err)
+		ctx.LogError("TestWasmRawContract wallet.GetDefaultAccount error:%s", err)
 		return false
 	}
+
 
 	txHash, err := deployCallWasmJsonContract(ctx, admin)
 	if err != nil {
@@ -27,12 +28,12 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool {
 
 	ctx.LogInfo("TestCallWasmJsonContract deploy TxHash:%x", txHash)
 
-	address, err := GetWasmContractAddress(filePath + "/callContract.wasm")
+	address,err := GetWasmContractAddress(filePath+"/callContract.wasm")
 	if err != nil {
 		ctx.LogError("TestCallWasmJsonContract GetWasmContractAddress error:%s", err)
 		return false
 	}
-	txHash, err = invokeCallContractAddValue(ctx, admin, address)
+	txHash,err = invokeCallContractAddValue(ctx,admin,address)
 	if err != nil {
 		ctx.LogError("TestCallWasmJsonContract invokeCallContractAddValue error:%s", err)
 		return false
@@ -48,15 +49,18 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestWasmJsonContract invokeCallContractAddValue return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestWasmJsonContract invokeCallContractAddValue ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
 
-	txHash, err = invokeCallContractGetValue(ctx, admin, address)
+
+	txHash,err = invokeCallContractGetValue(ctx,admin,address)
 	if err != nil {
 		ctx.LogError("TestCallWasmJsonContract invokeCallContractGetValue error:%s", err)
 		return false
@@ -72,18 +76,22 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
+
 		ctx.LogError("TestWasmJsonContract invokeCallContractGetValue return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestWasmJsonContract invokeCallContractAddValue ============")
 	for i, n := range notifies.Notify {
 		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
 	}
+
+
 
 	return true
 }
 
-func deployCallWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *account.Account) (common.Uint256, error) {
+func deployCallWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *account.Account) (common.Uint256, error){
 
 	code, err := ioutil.ReadFile(filePath + "/" + "callContract.wasm")
 	if err != nil {
@@ -92,7 +100,7 @@ func deployCallWasmJsonContract(ctx *testframework.TestFrameworkContext, signer 
 
 	codeHash := common.ToHexString(code)
 
-	txHash, err := ctx.Ont.Rpc.DeploySmartContract(0, 0,
+	txHash, err := ctx.Ont.Rpc.DeploySmartContract(0,0,
 		signer,
 		types.WASMVM,
 		true,
@@ -115,11 +123,11 @@ func deployCallWasmJsonContract(ctx *testframework.TestFrameworkContext, signer 
 	return txHash, nil
 }
 
-func invokeCallContractGetValue(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address) (common.Uint256, error) {
+func invokeCallContractGetValue(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address) (common.Uint256, error) {
 	method := "getValue"
-	params := make([]interface{}, 1)
+	params := make([]interface{},1)
 	params[0] = "TestKey"
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Json, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Json,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -128,12 +136,12 @@ func invokeCallContractGetValue(ctx *testframework.TestFrameworkContext, acc *ac
 	return txHash, nil
 }
 
-func invokeCallContractAddValue(ctx *testframework.TestFrameworkContext, acc *account.Account, address common.Address) (common.Uint256, error) {
+func invokeCallContractAddValue(ctx *testframework.TestFrameworkContext, acc *account.Account,address common.Address) (common.Uint256, error) {
 	method := "putValue"
-	params := make([]interface{}, 2)
+	params := make([]interface{},2)
 	params[0] = "TestKey"
 	params[1] = "Hello world again!"
-	txHash, err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0, 0, acc, 1, address, method, wasmvm.Json, params)
+	txHash,err := ctx.Ont.Rpc.InvokeWasmVMSmartContract(0,0,acc,1,address,method, wasmvm.Json,params)
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30 * time.Second)
 	if err != nil {
@@ -141,3 +149,4 @@ func invokeCallContractAddValue(ctx *testframework.TestFrameworkContext, acc *ac
 	}
 	return txHash, nil
 }
+
