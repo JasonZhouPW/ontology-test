@@ -51,6 +51,7 @@ func TestTransactionApi(ctx *testframework.TestFrameworkContext) bool {
 	}
 	if len(notifies.Notify) < 1 {
 
+
 		ctx.LogError("TestTransactionApi getTransactionType return notifies count error!")
 		return false
 	}

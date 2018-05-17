@@ -56,9 +56,9 @@ func TestCallNeoContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	ctx.LogInfo("==========TestCallNeoContract invokePut ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
 
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -78,9 +78,9 @@ func TestCallNeoContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	ctx.LogInfo("==========TestCallNeoContract invokeGet ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
 
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	return true

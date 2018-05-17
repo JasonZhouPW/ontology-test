@@ -44,15 +44,10 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeInit error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed, state:0")
-		return false
-	}
-	notify := notifies.Notify
-	bs, _ := common.HexToBytes(notify[0].States[0].(string))
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
 
+	bs ,_:= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
@@ -68,14 +63,9 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed state:0")
-		return false
-	}
 
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
@@ -91,14 +81,9 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed state:0")
-		return false
-	}
 
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
@@ -114,14 +99,9 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed state:0")
-		return false
-	}
 
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
@@ -137,13 +117,8 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed state:0")
-		return false
-	}
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}
@@ -159,13 +134,8 @@ func TestAssetRawContract(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestAssetContract init invokeBalanceOf error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestAssetContract contract invoke failed state:0")
-		return false
-	}
-	bs, _ = common.HexToBytes(notify[0].States[0].(string))
-	if bs == nil {
-
+	bs ,_= common.HexToBytes(notifies.Notify[0].States[0].(string))
+	if bs == nil{
 		ctx.LogError("TestAssetContract init invokeTotalSupply error:%s", err)
 		return false
 	}

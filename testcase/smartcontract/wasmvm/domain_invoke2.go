@@ -32,14 +32,12 @@ func TestDomainContract_Invoke2(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
-
 		ctx.LogError("TestDomainContract invokeDomainCurrentPrice return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestDomainContract invokeDomainCurrentPrice ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	//query
@@ -59,14 +57,12 @@ func TestDomainContract_Invoke2(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
-
 		ctx.LogError("TestDomainContract invokeDomainQuery return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestICOContract invokeDomainQuery ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	//Buy
@@ -86,14 +82,12 @@ func TestDomainContract_Invoke2(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
-
 		ctx.LogError("TestDomainContract invokeDomainBuy return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestDomainContract invokeDomainBuy ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	//current Price
@@ -113,14 +107,12 @@ func TestDomainContract_Invoke2(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	if len(notifies.Notify) < 1 {
-
 		ctx.LogError("TestDomainContract invokeDomainCurrentPrice return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestDomainContract invokeDomainCurrentPrice ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 

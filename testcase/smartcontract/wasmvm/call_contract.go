@@ -49,14 +49,13 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 		return false
 	}
 	if len(notifies.Notify) < 1 {
-
 		ctx.LogError("TestWasmJsonContract invokeCallContractAddValue return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestWasmJsonContract invokeCallContractAddValue ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
 
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -77,13 +76,14 @@ func TestCallWasmJsonContract(ctx *testframework.TestFrameworkContext) bool{
 	}
 	if len(notifies.Notify) < 1 {
 
+
 		ctx.LogError("TestWasmJsonContract invokeCallContractGetValue return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestWasmJsonContract invokeCallContractAddValue ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
 
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 

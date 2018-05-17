@@ -45,25 +45,20 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getHeaderHashByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getHeaderHashByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderHashByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 	ret := &Result{}
 	s := notifies.Notify[0].States[0].(string)
-	err = json.Unmarshal([]byte(s), ret)
-	if err != nil {
-		fmt.Printf("error is %s\n", err.Error())
-
+	err = json.Unmarshal([]byte(s),ret)
+	if err!= nil{
+		fmt.Printf("error is %s\n",err.Error())
 	}
 	headerhash := ret.Pval
 	fmt.Printf("header hash is %s\n",headerhash)
@@ -79,19 +74,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getHeaderVersionByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getHeaderVersionByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderVersionByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -106,19 +96,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getHeaderVersionByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getHeaderVersionByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderVersionByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -133,19 +118,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderPrevHashByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getHeaderPrevHashByHash(ctx,admin,address,headerhash)
@@ -159,19 +139,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getHeaderPrevHashByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getHeaderPrevHashByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -186,19 +161,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getMerkelRootByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getMerkelRootByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getMerkelRootByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getMerkelRootByHash(ctx,admin,address,headerhash)
@@ -212,19 +182,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getMerkelRootByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getMerkelRootByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getMerkelRootByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getTimestampByHeight(ctx,admin,address,1)
@@ -238,19 +203,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getTimestampByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getTimestampByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getTimestampByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getTimestampByHash(ctx,admin,address,headerhash)
@@ -264,19 +224,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getTimestampByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getTimestampByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getTimestampByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getIndexByHash(ctx,admin,address,headerhash)
@@ -290,19 +245,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getIndexByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getIndexByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getIndexByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getConsensusDataByHeight(ctx,admin,address,1)
@@ -316,19 +266,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getConsensusDataByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getConsensusDataByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getConsensusDataByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getConsensusDataByHash(ctx,admin,address,headerhash)
@@ -342,19 +287,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getConsensusDataByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi getConsensusDataByHash invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getConsensusDataByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getConsensusDataByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getNextConsensusByHeight(ctx,admin,address,1)
@@ -368,19 +308,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getNextConsensusByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi getNextConsensusByHeight invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getNextConsensusByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getNextConsensusByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = getNextConsensusByHash(ctx,admin,address,headerhash)
@@ -394,19 +329,14 @@ func TestHeaderApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestHeaderApi getNextConsensusByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestHeaderApi getNextConsensusByHash invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestHeaderApi getNextConsensusByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestHeaderApi getNextConsensusByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 

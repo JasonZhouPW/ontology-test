@@ -50,8 +50,8 @@ func TestCallNativeContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	ctx.LogInfo("==========TestCallNativeContract TestCallNativeContract ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	//trans ont
@@ -71,8 +71,9 @@ func TestCallNativeContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	ctx.LogInfo("==========TestCallNativeContract TestCallNativeContract ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	return true

@@ -56,19 +56,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetHeaderHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetHeaderHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetHeaderHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -83,19 +78,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetHeaderHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetHeaderHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetHeaderHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -110,26 +100,21 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetBlockHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetBlockHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetBlockHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	ret := &Result{}
 	s := notifies.Notify[0].States[0].(string)
-	err = json.Unmarshal([]byte(s), ret)
-	if err != nil {
-		fmt.Printf("error is %s\n", err.Error())
-
+	err = json.Unmarshal([]byte(s),ret)
+	if err!= nil{
+		fmt.Printf("error is %s\n",err.Error())
 	}
 	height,err = strconv.Atoi(ret.Pval)
 	if err!= nil{
@@ -141,31 +126,26 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetBlockHash error:%s", err)
 		return false
 	}
+
 	notifies, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
 	if err != nil {
 		ctx.LogError("TestBlockApi callGetBlockHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
 
-	if len(notifies.Notify) < 1 {
-
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetBlockHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetBlockHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 	ret = &Result{}
 	s = notifies.Notify[0].States[0].(string)
-	err = json.Unmarshal([]byte(s), ret)
-	if err != nil {
-		fmt.Printf("error is %s\n", err.Error())
-
+	err = json.Unmarshal([]byte(s),ret)
+	if err!= nil{
+		fmt.Printf("error is %s\n",err.Error())
 	}
 	blockhash = ret.Pval
 
@@ -180,24 +160,15 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
 
-	if len(notifies.Notify) < 1 {
-
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
-
-
-
 
 
 	txHash,err = callGetTransCount(ctx,admin,address,blockhash)
@@ -211,19 +182,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -238,19 +204,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransCountByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransCountByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransCountByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = callGetTransactionsByHash(ctx,admin,address,blockhash)
@@ -264,19 +225,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransactionsByHash GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransactionsByHash return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransactionsByHash ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 
@@ -292,19 +248,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransCountByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransCountByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransCountByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	txHash,err = callGetTransactionsByHeight(ctx,admin,address,height)
@@ -318,19 +269,14 @@ func TestBlockApi(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestBlockApi callGetTransactionsByHeight GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if notifies.State == 0 {
-		ctx.LogError("TestBlockApi contract invoke failed state:0")
-		return false
-	}
-	if len(notifies.Notify) < 1 {
 
+	if len(notifies.Notify) < 1{
 		ctx.LogError("TestBlockApi callGetTransactionsByHeight return notifies count error!")
 		return false
 	}
 	ctx.LogInfo("==========TestBlockApi callGetTransactionsByHeight ============")
-	for i, n := range notifies.Notify {
-		ctx.LogInfo(fmt.Sprintf("notify %d is %v", i, n))
-
+	for i ,n := range notifies.Notify{
+		ctx.LogInfo(fmt.Sprintf("notify %d is %v",i, n))
 	}
 
 	return true
