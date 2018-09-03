@@ -12,7 +12,11 @@ func TestInvokeSmartContract(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	txHash, err := ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(), signer, contractCodeAddress, []interface{}{})
+	txHash, err := ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(),
+		ctx.GetGasLimit(),
+		signer,
+		contractCodeAddress,
+		[]interface{}{"Hello", []interface{}{0}})
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract InvokeNeoVMSmartContract error:%s", err)
 		return false

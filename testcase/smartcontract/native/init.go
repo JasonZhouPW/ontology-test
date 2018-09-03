@@ -1,9 +1,9 @@
 package native
 
 import (
-	"github.com/ontio/ontology-test/testcase/smartcontract/native/auth"
 	"github.com/ontio/ontology-test/testcase/smartcontract/native/ontid"
 	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology-test/testcase/smartcontract/native/auth"
 )
 
 func TestNative() {

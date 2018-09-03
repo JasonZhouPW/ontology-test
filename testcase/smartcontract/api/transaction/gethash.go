@@ -33,8 +33,9 @@ using System.Numerics;
 
 public class A : SmartContract
 {
-    public static void Main(byte[] txHash)
+    public static void Main(byte[] operation,byte[] txHash)
     {
+		if operation
         Transaction tx = Blockchain.GetTransaction(txHash);
         Storage.Put(Storage.CurrentContext, "txHash", tx.Hash);
     }
