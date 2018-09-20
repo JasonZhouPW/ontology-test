@@ -2,20 +2,16 @@ package deploy_invoke
 
 import (
 	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
 	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-go-sdk/utils"
 	"time"
-	"fmt"
+	"io/ioutil"
 )
 
-func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
+func TestAppcallgo(ctx *testframework.TestFrameworkContext) bool {
 
 
-	account2,_ := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-
-
-	avmfile := "test_data/testStruct.avm"
+	avmfile := "test_data/appCalltest.avm"
 
 	code, err := ioutil.ReadFile(avmfile)
 	if err != nil {
@@ -24,12 +20,12 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	codeHash := common.ToHexString(code)
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
-	fmt.Println("contract address:"+codeAddress.ToBase58())
 
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
+	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToBase58())
 	signer, err := ctx.GetDefaultAccount()
 	if err != nil {
-		ctx.LogError("TestStructPy GetDefaultAccount error:%s", err)
+		ctx.LogError("TestGoBytesEq GetDefaultAccount error:%s", err)
 		return false
 	}
 
@@ -37,7 +33,7 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 		signer,
 		true,
 		codeHash,
-		"TestStructPy",
+		"TestGoTransfer",
 		"1.0",
 		"",
 		"",
@@ -45,48 +41,45 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	)
 
 	if err != nil {
-		ctx.LogError("TestStructPy DeploySmartContract error: %s", err)
+		ctx.LogError("TestGoTransfer DeploySmartContract error: %s", err)
 	}
 
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
-		ctx.LogError("TestStructPy WaitForGenerateBlock error: %s", err)
+		ctx.LogError("TestGoBytesEq WaitForGenerateBlock error: %s", err)
 		return false
 	}
-
-
+	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	ctx.LogInfo("============test TestGoTransfer start===========")
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{signer.Address[:],account2.Address[:],500}})
+		[]interface{}{"test", []interface{}{signer.Address[:], account2.Address[:], 1000}})
 	if err != nil {
-		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
+		ctx.LogError("TestOEP4Py InvokeNeoVMSmartContract error: %s", err)
 	}
 
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
-		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
+		ctx.LogError("TestOEP4Py WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 	//GetEventLog, to check the result of invoke
 	events, err := ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
-		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
+		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	if events.State == 0 {
-		ctx.LogError("TestInvokeSmartContract failed invoked exec state return 0")
-		return false
+	for _,notify:= range events.Notify{
+		ctx.LogInfo("%+v", notify)
 	}
-	notify := events.Notify[0]
-	ctx.LogInfo("%+v", notify)
-	//invokeState := notify.States.(string)
-	//ctx.LogInfo(invokeState)
-	//s,_  :=common.HexToBytes(invokeState)
-	//ctx.LogInfo("%s", s)
+
+	ctx.LogInfo("============test eq end===========")
 
 	return true
 }
+
+

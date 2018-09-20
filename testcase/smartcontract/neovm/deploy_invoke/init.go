@@ -1,8 +1,6 @@
 package deploy_invoke
 
-import (
-	"github.com/ontio/ontology-test/testframework"
-)
+import "github.com/ontio/ontology-test/testframework"
 
 func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("TestDeploySmartContract", TestDeploySmartContract)
@@ -12,6 +10,15 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("TestInvokeContractPy", TestInvokeContractPy)
 	//testframework.TFramework.RegTestCase("TestDomainSmartContractPy", TestDomainSmartContractPy)
 	//testframework.TFramework.RegTestCase("TestOEP4Py", TestOEP4Py)
+	//testframework.TFramework.RegTestCase("TestGoTransfer", TestGoTransfer)
+	//testframework.TFramework.RegTestCase("TestAppcallgo", TestAppcallgo)
+	//testframework.TFramework.RegTestCase("Testscripthash", Testscripthash)
+	testframework.TFramework.RegTestCase("TestCryptoMessage", TestCryptoMessage)
+	//testframework.TFramework.RegTestCase("TestSerialize", TestSerialize)
 	//testframework.TFramework.RegTestCase("TestStructPy", TestStructPy)
-	testframework.TFramework.RegTestCase("TestLottery", TestLottery)
+	//testframework.TFramework.RegTestCase("TestLottery", TestLottery)
+	//testframework.TFramework.RegTestCase("TestGoBytesEq", TestGoBytesEq)
+	//testframework.TFramework.RegTestCase("TestAppcall", TestAppcall)
+	//testframework.TFramework.RegTestCase("TestMulitparam", TestMulitparam)
+
 }

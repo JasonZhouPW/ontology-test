@@ -38,7 +38,7 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	_, err = ctx.Ont.Rpc.DeploySmartContract(500, 10300000000,
+	_, err = ctx.Ont.NeoVM.DeployNeoVMSmartContract(500, 10300000000,
 		signer,
 		true,
 		codeHash,
@@ -54,20 +54,20 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestLottery WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 
-	gameCount := 10
+	gameCount := 2
 
-		flag := true
+		flag := false
 		if flag {
 
 			ctx.LogInfo("=============end game start=======================")
-			txHash, err := ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+			txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 				signer,
 				codeAddress,
 				[]interface{}{"endGame", []interface{}{signer.Address[:],gameCount}})
@@ -76,14 +76,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 			}
 
 			//WaitForGenerateBlock
-			_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+			_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 			if err != nil {
 				ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 				return false
 			}
 
 			//GetEventLog, to check the result of invoke
-			events, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+			events, err := ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 			if err != nil {
 				ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 				return false
@@ -105,28 +105,15 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 
 	if !flag {
 		ctx.LogInfo("--------------------testing query round --------------------")
-		tx, err := ctx.Ont.Rpc.NewNeoVMSInvokeTransaction(ctx.GetGasPrice(), ctx.GetGasLimit(),codeAddress, []interface{}{"queryCurrentRound", []interface{}{gameCount}})
-		if err != nil {
-			ctx.LogError("TestLottery NewNeoVMSInvokeTransaction error:%s", err)
+		obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryCurrentRound", []interface{}{gameCount}})
 
-			return false
-		}
-		err = ctx.Ont.Rpc.SignToTransaction(tx, signer)
-		if err != nil {
-			ctx.LogError("TestLottery SignToTransaction error:%s", err)
-
-			return false
-		}
-
-
-		obj,err:=ctx.Ont.Rpc.PrepareInvokeContract(tx)
-		if err != nil {
+		res ,err := obj.Result.ToString()
+		if err != nil{
 			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
 
 			return false
 		}
-
-		bs,err:= common.HexToBytes(obj.Result.(string))
+		bs,err := common.HexToBytes(res)
 		if err != nil{
 			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
 
@@ -134,13 +121,13 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 		round := common.BigIntFromNeoBytes(bs)
 		//
-		fmt.Printf("round is %d\n",round.Int64())
+		fmt.Printf("current round is %d\n",round.Int64())
 		ctx.LogInfo("--------------------testing query round end--------------------")
 
 
 
 		ctx.LogInfo("=============acct1 attend start=======================")
-		txHash, err := ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			signer,
 			codeAddress,
 			[]interface{}{"attend", []interface{}{signer.Address[:],gameCount}})
@@ -149,14 +136,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 
 		//WaitForGenerateBlock
-		_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 		if err != nil {
 			ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 			return false
 		}
 
 		//GetEventLog, to check the result of invoke
-		events, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+		events, err := ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 		if err != nil {
 			ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 			return false
@@ -175,7 +162,7 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 
 
 		ctx.LogInfo("=============acct2 attend start=======================")
-		txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			account2,
 			codeAddress,
 			[]interface{}{"attend", []interface{}{account2.Address[:],gameCount}})
@@ -184,14 +171,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 
 		//WaitForGenerateBlock
-		_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 		if err != nil {
 			ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 			return false
 		}
 
 		//GetEventLog, to check the result of invoke
-		events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+		events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 		if err != nil {
 			ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 			return false
@@ -208,7 +195,7 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogInfo("=============acct2 attend end=======================")
 
 		ctx.LogInfo("=============acct3 attend start=======================")
-		txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			account3,
 			codeAddress,
 			[]interface{}{"attend", []interface{}{account3.Address[:],gameCount}})
@@ -217,14 +204,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 
 		//WaitForGenerateBlock
-		_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 		if err != nil {
 			ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 			return false
 		}
 
 		//GetEventLog, to check the result of invoke
-		events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+		events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 		if err != nil {
 			ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 			return false
@@ -241,7 +228,7 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogInfo("=============acct3 attend end=======================")
 
 		ctx.LogInfo("=============acct4 attend start=======================")
-		txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			account4,
 			codeAddress,
 			[]interface{}{"attend", []interface{}{account4.Address[:],gameCount}})
@@ -250,14 +237,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 
 		//WaitForGenerateBlock
-		_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 		if err != nil {
 			ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 			return false
 		}
 
 		//GetEventLog, to check the result of invoke
-		events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+		events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 		if err != nil {
 			ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 			return false
@@ -274,7 +261,7 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 
 
 		ctx.LogInfo("=============acct5 attend start=======================")
-		txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			account5,
 			codeAddress,
 			[]interface{}{"attend", []interface{}{account5.Address[:],gameCount}})
@@ -283,14 +270,14 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 		}
 
 		//WaitForGenerateBlock
-		_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 		if err != nil {
 			ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 			return false
 		}
 
 		//GetEventLog, to check the result of invoke
-		events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+		events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 		if err != nil {
 			ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 			return false
@@ -308,28 +295,15 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 
 
 		ctx.LogInfo("--------------------testing query round --------------------")
-		tx, err = ctx.Ont.Rpc.NewNeoVMSInvokeTransaction(ctx.GetGasPrice(), ctx.GetGasLimit(),codeAddress, []interface{}{"queryCurrentRound", []interface{}{gameCount}})
-		if err != nil {
-			ctx.LogError("TestLottery NewNeoVMSInvokeTransaction error:%s", err)
+		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryCurrentRound", []interface{}{gameCount}})
 
-			return false
-		}
-		err = ctx.Ont.Rpc.SignToTransaction(tx, signer)
-		if err != nil {
-			ctx.LogError("TestLottery SignToTransaction error:%s", err)
-
-			return false
-		}
-
-
-		obj,err=ctx.Ont.Rpc.PrepareInvokeContract(tx)
-		if err != nil {
+		res ,err = obj.Result.ToString()
+		if err != nil{
 			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
 
 			return false
 		}
-
-		bs,err= common.HexToBytes(obj.Result.(string))
+		bs,err = common.HexToBytes(res)
 		if err != nil{
 			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
 
@@ -342,28 +316,15 @@ func TestLottery(ctx *testframework.TestFrameworkContext) bool {
 
 
 		ctx.LogInfo("--------------------testing query queryWinner --------------------")
-		tx, err = ctx.Ont.Rpc.NewNeoVMSInvokeTransaction(ctx.GetGasPrice(), ctx.GetGasLimit(),codeAddress, []interface{}{"queryWinner", []interface{}{gameCount,round.Int64()}})
+		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryWinner", []interface{}{gameCount,round.Int64()}})
 		if err != nil {
 			ctx.LogError("TestLottery NewNeoVMSInvokeTransaction error:%s", err)
 
 			return false
 		}
-		err = ctx.Ont.Rpc.SignToTransaction(tx, signer)
-		if err != nil {
-			ctx.LogError("TestLottery SignToTransaction error:%s", err)
 
-			return false
-		}
-
-
-		obj,err=ctx.Ont.Rpc.PrepareInvokeContract(tx)
-		if err != nil {
-			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
-
-			return false
-		}
-
-		bs,err= common.HexToBytes(obj.Result.(string))
+	    res ,err = obj.Result.ToString()
+		bs,err= common.HexToBytes(res)
 		if err != nil{
 			ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
 

@@ -9,16 +9,14 @@ import (
 	"fmt"
 )
 
-func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
+func TestSerialize(ctx *testframework.TestFrameworkContext) bool {
 
 
-	account2,_ := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-
-
-	avmfile := "test_data/testStruct.avm"
+	avmfile := "test_data/TestSerialize.avm"
 
 	code, err := ioutil.ReadFile(avmfile)
 	if err != nil {
+		fmt.Println(err.Error())
 		return false
 	}
 	codeHash := common.ToHexString(code)
@@ -29,7 +27,7 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
 	signer, err := ctx.GetDefaultAccount()
 	if err != nil {
-		ctx.LogError("TestStructPy GetDefaultAccount error:%s", err)
+		ctx.LogError("TestSerialize GetDefaultAccount error:%s", err)
 		return false
 	}
 
@@ -37,7 +35,7 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 		signer,
 		true,
 		codeHash,
-		"TestStructPy",
+		"TestSerialize",
 		"1.0",
 		"",
 		"",
@@ -45,21 +43,21 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	)
 
 	if err != nil {
-		ctx.LogError("TestStructPy DeploySmartContract error: %s", err)
+		ctx.LogError("TestSerialize DeploySmartContract error: %s", err)
 	}
 
 	//WaitForGenerateBlock
 	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
-		ctx.LogError("TestStructPy WaitForGenerateBlock error: %s", err)
+		ctx.LogError("TestSerialize WaitForGenerateBlock error: %s", err)
 		return false
 	}
-
+	ctx.LogInfo("======Deploy done==========")
 
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{signer.Address[:],account2.Address[:],500}})
+		[]interface{}{"save", []interface{}{}})
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -84,9 +82,45 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	notify := events.Notify[0]
 	ctx.LogInfo("%+v", notify)
 	//invokeState := notify.States.(string)
-	//ctx.LogInfo(invokeState)
-	//s,_  :=common.HexToBytes(invokeState)
-	//ctx.LogInfo("%s", s)
+	for _,notify:= range events.Notify{
+		ctx.LogInfo("%+v", notify)
+	}
+
+
+
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		signer,
+		codeAddress,
+		[]interface{}{"get", []interface{}{}})
+	if err != nil {
+		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
+	}
+
+	//WaitForGenerateBlock
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
+	if err != nil {
+		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
+		return false
+	}
+
+	//GetEventLog, to check the result of invoke
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
+	if err != nil {
+		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
+		return false
+	}
+	if events.State == 0 {
+		ctx.LogError("TestInvokeSmartContract failed invoked exec state return 0")
+		return false
+	}
+	notify = events.Notify[0]
+	ctx.LogInfo("%+v", notify)
+	//invokeState := notify.States.(string)
+	for _,notify:= range events.Notify{
+		ctx.LogInfo("%+v", notify)
+	}
+
+
 
 	return true
 }

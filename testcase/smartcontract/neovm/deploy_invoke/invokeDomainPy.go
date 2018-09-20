@@ -33,7 +33,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	_, err = ctx.Ont.Rpc.DeploySmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	_, err = ctx.Ont.NeoVM.DeployNeoVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		true,
 		codeHash,
@@ -49,13 +49,13 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
-	txHash, err := ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
 		[]interface{}{"register", []interface{}{signer.Address[:], []byte("www.g.com")}})
@@ -64,14 +64,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 	//GetEventLog, to check the result of invoke
-	events, err := ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err := ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
@@ -89,7 +89,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 
 
 	ctx.LogInfo("==============query begin=================")
-	txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
 		[]interface{}{"query", []interface{}{[]byte("www.g.com")}})
@@ -98,14 +98,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 	//GetEventLog, to check the result of invoke
-	events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
@@ -124,7 +124,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 
 
 	ctx.LogInfo("==============sell begin====================")
-	txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
 		[]interface{}{"sell", []interface{}{signer.Address[:], []byte("www.g.com"),500}})
@@ -133,14 +133,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 	//GetEventLog, to check the result of invoke
-	events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
@@ -158,7 +158,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("==============sell end====================")
 
 	ctx.LogInfo("==============query begin=================")
-	txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
 		[]interface{}{"query", []interface{}{[]byte("www.g.com")}})
@@ -167,14 +167,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 	//GetEventLog, to check the result of invoke
-	events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
@@ -205,7 +205,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	//if err != nil {
 	//	ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	//}
-	txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
 		[]interface{}{"buy", []interface{}{account2.Address[:],[]byte("www.g.com"),500}})
@@ -214,14 +214,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
 
-	events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
@@ -246,7 +246,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 
 
 	ctx.LogInfo("==============done start=================")
-	txHash, err = ctx.Ont.Rpc.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
 		[]interface{}{"done", []interface{}{signer.Address[:],[]byte("www.g.com")}})
@@ -254,13 +254,13 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.Rpc.WaitForGenerateBlock(30*time.Second, 1)
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract WaitForGenerateBlock error: %s", err)
 		return false
 	}
 
-	events, err = ctx.Ont.Rpc.GetSmartContractEvent(txHash)
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
