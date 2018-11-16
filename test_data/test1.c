@@ -1,4 +1,3 @@
-
 //system apis
 void * calloc(int count,int length);
 void * malloc(int size);
@@ -26,10 +25,9 @@ char * ONT_JsonMashalParams(void * s);
 char * ONT_RawMashalParams(void *s);
 char * ONT_GetCallerAddress();
 char * ONT_GetSelfAddress();
-char * ONT_CallContract(char * address,char * method,char * args);
-char * ONT_NativeInvoke(int ver,char *address, char * method, char * args);
+char * ONT_CallContract(char * address,char * contractCode,char * method,char * args);
 char * ONT_MarshalNativeParams(void * s);
-// char * ONT_MarshalNeoParams(void * s);
+char * ONT_MarshalNeoParams(void * s);
 
 //Runtime apis
 int ONT_Runtime_CheckWitness(char * address);
@@ -86,3 +84,73 @@ char * ONT_Transaction_GetAttributes(char * data);
 void ContractLogDebug(char * msg);
 void ContractLogInfo(char * msg);
 void ContractLogError(char * msg);
+
+char* invoke(char * method,char * args){
+
+    if (strcmp(method ,"init")==0 ){
+            return "init success!";
+    }
+
+    if (strcmp(method, "add")==0 ){
+
+      // char* str1[]={"hello","world","test char array"};
+
+      struct Param{
+            int a;
+            int b;
+        };
+
+        struct Param *p = (struct Param *)malloc(sizeof(struct Param));
+        ONT_JsonUnmashalInput(p,sizeof(struct Param),args);
+
+      char ** str = (char **)malloc(sizeof(char*) * 2);
+      str[0] = "result is ";
+      str[1] = Itoa( p->a + p->b);
+
+
+      ONT_Runtime_Notify(str);
+      return  Itoa(p->a + p->b);
+    }
+
+
+    if (strcmp(method, "put") == 0)
+    {
+      struct Param
+      {
+        char * key;
+        char * value;
+      };
+        struct Param *p = (struct Param *)malloc(sizeof(struct Param));
+        ONT_JsonUnmashalInput(p,sizeof(struct Param),args);
+
+        ONT_Storage_Put(p->key, p->value);
+        return "true";
+
+    }
+
+
+    if (strcmp(method, "get")==0)
+    {
+       struct Param
+      {
+        char * key;
+      };
+        struct Param *p = (struct Param *)malloc(sizeof(struct Param));
+        ONT_JsonUnmashalInput(p,sizeof(struct Param),args);
+
+        char * value = ONT_Storage_Get(p->key);
+
+        char ** str = (char **)malloc(sizeof(char*) );
+
+        str[0] = value;
+        ONT_Runtime_Notify(str);
+
+
+        return value;
+    }
+
+
+
+
+    return "false";
+}

@@ -1,4 +1,3 @@
-
 //system apis
 void * calloc(int count,int length);
 void * malloc(int size);
@@ -86,3 +85,56 @@ char * ONT_Transaction_GetAttributes(char * data);
 void ContractLogDebug(char * msg);
 void ContractLogInfo(char * msg);
 void ContractLogError(char * msg);
+
+
+struct Param{
+        char * ptype;
+        void * pvalue;
+};
+
+
+char * OEP4_addr = "AHeUVHURPAJ2DZijq35NrinL39cDnDYSTb";
+
+char * transferOEP4(char * fromAddress, char * toAddress, long long amount){
+
+    struct Param * args = (struct Param *)malloc(sizeof(struct Param) * 3);
+    args[0].ptype = "string";
+    args[0].pvalue = fromAddress;
+
+    args[1].ptype = "string";
+    args[1].pvalue = toAddress;
+
+    args[2].ptype = "int64";
+    args[2].pvalue = amount;
+
+    return ONT_CallContract(OEP4_addr,"transfer",ONT_RawMashalParams(args));
+}
+
+char * balanceOf(char * address){
+    struct Param * args = (struct Param *)malloc(sizeof(struct Param));
+    args[0].ptype = "string";
+    args[0].pvalue = address;
+
+    return ONT_CallContract(OEP4_addr,"balanceOf",ONT_RawMashalParams(args));
+
+}
+
+
+char* invoke(char * method,char * args){
+
+    if (strcmp(method ,"transferOEP4")==0 )
+    {
+        char * fromAddr = ONT_ReadStringParam(args);
+        char * toAddr = ONT_ReadStringParam(args);
+        long long amount = ONT_ReadInt64Param(args);
+
+        return transferOEP4(fromAddr, toAddr, amount);
+    }
+    if (strcmp(method, "balanceOfOEP4")==0)
+    {
+        char * fromAddr = ONT_ReadStringParam(args);
+
+        return balanceOf(fromAddr);
+    }
+    return "false";
+}

@@ -86,3 +86,59 @@ char * ONT_Transaction_GetAttributes(char * data);
 void ContractLogDebug(char * msg);
 void ContractLogInfo(char * msg);
 void ContractLogError(char * msg);
+
+char * ONT_ADDRESS = "0000000000000000000000000000000000000001";
+char * ONG_ADDRESS = "0000000000000000000000000000000000000002";
+
+char * transfer(char * contractaddr, char * fromaddr, char * toaddr, long long amount)
+{
+    struct State{
+        char * from;
+        char * to ;
+        long long amount;
+    };
+
+    struct Transfer {
+        struct State * states
+    };
+
+
+    struct State * state = (struct State*)malloc(sizeof(struct State));
+    state->amount = amount;
+    state->from = fromaddr;
+    state->to = toaddr;
+
+    struct Transfer * transfer =(struct Transfer*)malloc(sizeof(struct Transfer));
+    transfer->states = state;
+
+    char * args = ONT_MarshalNativeParams(transfer);
+    char * result = ONT_NativeInvoke(1,contractaddr,"transfer",args);
+    if (strcmp(result,"true")==0){
+        return "true";
+    }else{
+        return "false";
+    }
+}
+
+
+
+char* invoke(char * method,char * args){
+
+    if (strcmp(method ,"transferONT")==0 )
+    {
+        char * fromAddr = ONT_ReadStringParam(args);
+        char * toAddr = ONT_ReadStringParam(args);
+        long long amount = ONT_ReadInt64Param(args);
+
+        return transfer(ONT_ADDRESS,fromAddr, toAddr, amount);
+    }
+    if (strcmp(method, "transferONG")==0)
+    {
+        char * fromAddr = ONT_ReadStringParam(args);
+        char * toAddr = ONT_ReadStringParam(args);
+        long long amount = ONT_ReadInt64Param(args);
+
+        return transfer(ONG_ADDRESS,fromAddr,toAddr,amount);
+    }
+    return "false";
+}
