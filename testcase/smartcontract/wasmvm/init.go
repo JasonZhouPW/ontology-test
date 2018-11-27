@@ -7,8 +7,11 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestWasmAddTest1", TestWasmAddTest1)
 	//testframework.TFramework.RegTestCase("TestWasmOEP4", TestWasmOEP4)
 	//testframework.TFramework.RegTestCase("TestCallWasmOEP4", TestWasmCallOEP4)
-	testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
+	//testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
 	//testframework.TFramework.RegTestCase("TestWasmTransfer", TestWasmTransfer)
+	testframework.TFramework.RegTestCase("TestWasmAddressTest", TestWasmAddressTest)
+	testframework.TFramework.RegTestCase("TestWasmCallAddressTest", TestWasmCallAddressTest)
+	testframework.TFramework.RegTestCase("TestWasmCallAddressTest3", TestWasmCallAddressTest3)
 
 
 
