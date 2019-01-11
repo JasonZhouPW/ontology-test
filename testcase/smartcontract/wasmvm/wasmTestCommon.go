@@ -20,7 +20,7 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 
 	codeHash := common.ToHexString(code)
 
-	txHash, err :=  ctx.Ont.WasmVM.DeployWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err :=  ctx.Ont.WasmVM.DeployWasmVMSmartContract(3597135678,ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		true,
 		codeHash,
@@ -35,7 +35,7 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 		return common.Uint256{},common.Address{}, fmt.Errorf(" DeploySmartContract error:%s", err)
 	}
 	//WaitForGenerateBlock
-	_, err = ctx.Ont.WaitForGenerateBlock(30 * time.Second)
+	_, err = ctx.Ont.WaitForGenerateBlock(60 * time.Second)
 	if err != nil {
 		return common.Uint256{},common.Address{}, fmt.Errorf("WaitForGenerateBlock error:%s", err)
 	}
@@ -54,7 +54,7 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 func InvokeWasmContract(ctx  *testframework.TestFrameworkContext, signer *sdk.Account, address common.Address,
 	methodName string, paramType wasmvm.ParamType, version byte, params []interface{})(common.Uint256, error){
 
-	return ctx.Ont.WasmVM.InvokeWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+	return ctx.Ont.WasmVM.InvokeWasmVMSmartContract(3597135678,ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,address,methodName,paramType,version,params)
 
 }
@@ -63,7 +63,7 @@ func PreExecWasmContract(ctx  *testframework.TestFrameworkContext,  address comm
 	methodName string, paramType wasmvm.ParamType, version byte, params []interface{})(*sdkcom.PreExecResult,error){
 
 
-		return ctx.Ont.WasmVM.PreExecInvokeNeoVMContract(address,methodName,paramType,version,params)
+		return ctx.Ont.WasmVM.PreExecInvokeNeoVMContract(3597135678,address,methodName,paramType,version,params)
 
 
 }

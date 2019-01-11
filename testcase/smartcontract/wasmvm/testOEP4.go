@@ -9,6 +9,7 @@ import (
 
 
 func TestWasmOEP4(ctx *testframework.TestFrameworkContext) bool {
+	timeoutSec := 60 * time.Second
 	testFile := filePath + "/" + "OEP4.wasm"
 	signer,_ := ctx.GetDefaultAccount()
 
@@ -27,11 +28,17 @@ func TestWasmOEP4(ctx *testframework.TestFrameworkContext) bool {
 		addr,
 		"init",
 		wasmvm.Raw,byte(1),[]interface{}{})
+	if err != nil{
+		fmt.Println("init error:" + err.Error())
+		return false
+	}
 
-	_, err = ctx.Ont.WaitForGenerateBlock(30 * time.Second)
+	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
 		return false
 	}
+
+	ctx.LogInfo("txhash is %s\n",txhash.ToHexString())
 
 	events, err := ctx.Ont.GetSmartContractEvent(txhash.ToHexString())
 	if err != nil {
@@ -54,6 +61,11 @@ func TestWasmOEP4(ctx *testframework.TestFrameworkContext) bool {
 		addr,
 		"name",
 		wasmvm.Raw,byte(1),[]interface{}{})
+
+	if err != nil{
+		fmt.Printf("invoke name failed:%s\n",err.Error())
+		return false
+	}
 
 	tmp ,err:= res.Result.ToString()
 	fmt.Printf("name is %v\n",tmp)
@@ -107,7 +119,7 @@ func TestWasmOEP4(ctx *testframework.TestFrameworkContext) bool {
 		"transfer",
 		wasmvm.Raw,byte(1),[]interface{}{"Ad4pjz2bqep4RhQrUAzMuZJkBC3qJ1tZuT","AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb",int64(300)})
 
-	_, err = ctx.Ont.WaitForGenerateBlock(30 * time.Second)
+	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
 		return false
 	}

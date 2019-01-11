@@ -1,7 +1,7 @@
 {
-  "RestfulAddress":"http://localhost:20334",
-  "WebSocketAddress":"http://localhost:20335",
-  "JsonRpcAddress":"http://localhost:20336",
+  "RestfulAddress":"http://138.91.6.125:40336",
+  "WebSocketAddress":"http://138.91.6.125:40336",
+  "JsonRpcAddress":"http://138.91.6.125:40336",
   "WalletFile":"./wallet.dat",
   "Password":"123456",
   "GasPrice":500,

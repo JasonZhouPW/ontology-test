@@ -8,6 +8,8 @@ import (
 )
 
 func TestWasmCallOEP4(ctx *testframework.TestFrameworkContext) bool {
+	timeoutSec := 60 * time.Second
+
 	testFile := filePath + "/" + "callOEP4.wasm"
 	signer,_ := ctx.GetDefaultAccount()
 
@@ -49,7 +51,7 @@ func TestWasmCallOEP4(ctx *testframework.TestFrameworkContext) bool {
 		"transferOEP4",
 		wasmvm.Raw,byte(1),[]interface{}{"Ad4pjz2bqep4RhQrUAzMuZJkBC3qJ1tZuT","AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb",int64(300)})
 
-	_, err = ctx.Ont.WaitForGenerateBlock(30 * time.Second)
+	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
 		return false
 	}

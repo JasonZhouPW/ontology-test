@@ -1,18 +1,20 @@
 package wasmvm
 
 import "github.com/ontio/ontology-test/testframework"
+
 var filePath = "/home/zhoupw/work/go/src/github.com/ontio/ontology-test/test_data"
 
 func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestWasmAddTest1", TestWasmAddTest1)
-	//testframework.TFramework.RegTestCase("TestWasmOEP4", TestWasmOEP4)
-	//testframework.TFramework.RegTestCase("TestCallWasmOEP4", TestWasmCallOEP4)
+	testframework.TFramework.RegTestCase("TestWasmOEP4", TestWasmOEP4)
+	testframework.TFramework.RegTestCase("TestCallWasmOEP4", TestWasmCallOEP4)
 	//testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
 	//testframework.TFramework.RegTestCase("TestWasmTransfer", TestWasmTransfer)
 	testframework.TFramework.RegTestCase("TestWasmAddressTest", TestWasmAddressTest)
 	testframework.TFramework.RegTestCase("TestWasmCallAddressTest", TestWasmCallAddressTest)
 	testframework.TFramework.RegTestCase("TestWasmCallAddressTest3", TestWasmCallAddressTest3)
 
+	//testframework.TFramework.RegTestCase("TestFloat", TestFloat)
 
 
 

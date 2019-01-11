@@ -18,6 +18,7 @@
 package smartcontract
 
 import (
+	//"github.com/ontio/ontology-test/testcase/smartcontract/neovm"
 	"github.com/ontio/ontology-test/testcase/smartcontract/wasmvm"
 )
 

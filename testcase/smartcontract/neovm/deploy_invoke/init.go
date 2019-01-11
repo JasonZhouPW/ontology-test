@@ -17,7 +17,7 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("TestOEP5Py", TestOEP5Py)
 	//testframework.TFramework.RegTestCase("TestPandaFighting", TestPandaFighting)
 	//testframework.TFramework.RegTestCase("Testmap", TestInvoketestmap)
-	testframework.TFramework.RegTestCase("TestNotify", TestNotify)
+	//testframework.TFramework.RegTestCase("TestNotify", TestNotify)
 	//testframework.TFramework.RegTestCase("TestContractsAPI", TestContractsAPI)
 	//testframework.TFramework.RegTestCase("TestSerialize", TestSerialize)
 	//testframework.TFramework.RegTestCase("TestStructPy", TestStructPy)
@@ -25,5 +25,11 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("TestGoBytesEq", TestGoBytesEq)
 	//testframework.TFramework.RegTestCase("TestAppcall", TestAppcall)
 	//testframework.TFramework.RegTestCase("TestMulitparam", TestMulitparam)
+
+	//testframework.TFramework.RegTestCase("NBAGuessTest", NBAGuessTest)
+	//testframework.TFramework.RegTestCase("NBAGuessTestnet", NBAGuessTestnet)
+	//testframework.TFramework.RegTestCase("TestJsonMarshal", TestJsonMarshal)
+	testframework.TFramework.RegTestCase("DiceTest", DiceTest)
+
 
 }
