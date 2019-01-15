@@ -318,7 +318,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"addPair", []interface{}{5,addr,8,ong,9}})
+		[]interface{}{"addPair", []interface{}{2,addr,8,ong,9}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -380,7 +380,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"addOrder", []interface{}{account2.Address[:],5,100,1,priceMultiple/100}})
+		[]interface{}{"addOrder", []interface{}{account2.Address[:],2,100,1,priceMultiple/100}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -411,7 +411,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account3,
 		codeAddress,
-		[]interface{}{"addOrder", []interface{}{account3.Address[:],5,100,0,priceMultiple/100}})
+		[]interface{}{"addOrder", []interface{}{account3.Address[:],2,100,0,priceMultiple/100}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -469,6 +469,42 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing match end--------------------")
+
+	ctx.LogInfo("--------------------testing withdrawAssets order--------------------")
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		signer,
+		codeAddress,
+		[]interface{}{"withdrawAssets", []interface{}{}})
+	if err != nil {
+		ctx.LogError("Dice invest error: %s", err)
+	}
+
+	//WaitForGenerateBlock
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
+	if err != nil {
+		ctx.LogError("Dice WaitForGenerateBlock error: %s", err)
+		return false
+	}
+
+	//GetEventLog, to check the result of invoke
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
+	if err != nil {
+		ctx.LogError("Dice GetSmartContractEvent error:%s", err)
+		return false
+	}
+	if events.State == 0 {
+		ctx.LogError("Dice failed invoked exec state return 0")
+		return false
+	}
+	for _,notify:= range events.Notify{
+		ctx.LogInfo("%+v", notify)
+	}
+	ctx.LogInfo("--------------------testing withdrawAssets end--------------------")
+
+
+
+
+
 
 	return true
 }
