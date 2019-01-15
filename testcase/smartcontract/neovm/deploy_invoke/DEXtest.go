@@ -160,7 +160,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"matchOrder", []interface{}{2,1,100,2*priceMultiple}})
+		[]interface{}{"matchOrder", []interface{}{2,1,100,2*priceMultiple,1}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -443,7 +443,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"matchOrder", []interface{}{2,1,100,priceMultiple/100}})
+		[]interface{}{"matchOrder", []interface{}{6,5,100,priceMultiple/100,1}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
