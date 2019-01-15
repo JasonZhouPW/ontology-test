@@ -1,0 +1,9 @@
+{
+  "RestfulAddress":"http://138.91.6.125:40336",
+  "WebSocketAddress":"http://138.91.6.125:40336",
+  "JsonRpcAddress":"http://138.91.6.125:40336",
+  "WalletFile":"./wallet.dat",
+  "Password":"123456",
+  "GasPrice":0,
+  "GasLimit":200000000
+}

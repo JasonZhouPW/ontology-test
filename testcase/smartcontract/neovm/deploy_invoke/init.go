@@ -29,7 +29,10 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("NBAGuessTest", NBAGuessTest)
 	//testframework.TFramework.RegTestCase("NBAGuessTestnet", NBAGuessTestnet)
 	//testframework.TFramework.RegTestCase("TestJsonMarshal", TestJsonMarshal)
-	testframework.TFramework.RegTestCase("DiceTest", DiceTest)
+	//testframework.TFramework.RegTestCase("DiceTest", DiceTest)
+
+
+	testframework.TFramework.RegTestCase("ONTDEXTest", DEXTest)
 
 
 }
