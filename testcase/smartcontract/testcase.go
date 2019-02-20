@@ -18,9 +18,7 @@
 package smartcontract
 
 import (
-	//"github.com/ontio/ontology-test/testcase/smartcontract/neovm"
-	//"github.com/ontio/ontology-test/testcase/smartcontract/wasmvm"
-	"github.com/ontio/ontology-test/testcase/smartcontract/neovm"
+	"github.com/ontio/ontology-test/testcase/smartcontract/wasmvm"
 )
 
 //Register test case
@@ -28,6 +26,6 @@ func TestSmartContract() {
 	//api.TestSmartContractApi()
 	//native.TestNative()
 
-	neovm.TestNeoVM()
-	//wasmvm.TestWasmVM()
+	//neovm.TestNeoVM()
+	wasmvm.TestWasmVM()
 }

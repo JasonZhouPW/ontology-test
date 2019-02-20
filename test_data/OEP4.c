@@ -129,6 +129,17 @@ void notifyTransfer( char * fromAddr, char * toAddr, long long amount)
       ONT_Runtime_Notify(str);
 }
 
+void notifyApproval(char * owner,char * spender, long long amount)
+{
+    char ** str = (char **)malloc(sizeof(char*) * 4);
+    str[0] = "approval";
+    str[1] = owner;
+    str[2] = spender;
+    str[3] = I64toa(amount,10);
+
+    ONT_Runtime_Notify(str);
+}
+
 char * name()
 {
     return NAME;
@@ -203,14 +214,104 @@ char * transfer(char * fromAddr, char * toAddr, long long amount)
 
     return "true";
 
+}
+
+char * approve(char * owner, char * spender, long long amount)
+{
+    if (ONT_Runtime_CheckWitness(owner) != 1)
+    {
+        return "false";
+    }
+
+    if (amount < 0 )
+    {
+        return "false";
+    }
+
+    char * key = _concatKey(_concatKey(ApproveKey,owner),spender);
+    ONT_Storage_Put(key,I64toa(amount,10));
+    notifyApproval(owner,spender,amount);
+
+    return "true";
 
 }
 
-char* invoke(char * method,char * args){
+char * transferFrom(char * spender, char * from_acct, char * to_acct, long long amount)
+{
+    if (ONT_Runtime_CheckWitness(spender) != 1)
+    {
+        return "false";
+    }
+
+    if (amount < 0)
+    {
+        return "false";
+    }
+
+    char * fromkey = _concatKey(BalanceKey,from_acct);
+    char * fromBalanceBytes = ONT_Storage_Get(fromkey);
+    if (arrayLen(fromBalanceBytes) == 0)
+    {
+        return "false";
+    }
+
+    long long fromBalance = Atoi64(fromBalanceBytes);
+
+    if (fromBalance < amount)
+    {
+        return "false";
+    }
+
+    char * approvekey = _concatKey(_concatKey(ApproveKey,from_acct),spender);
+    char * approveAmountBytes = ONT_Storage_Get(approvekey);
+    if (arrayLen(approveAmountBytes) == 0)
+    {
+        return "false";
+    }
+
+    long long approveAmount = Atoi64(approveAmountBytes);
+    if (amount > approveAmount)
+    {
+        return "false";
+    }
+    else if (amount == approveAmount)
+    {
+        ONT_Storage_Delete(approvekey);
+    }
+    else
+    {
+        ONT_Storage_Put(approvekey,I64toa(approveAmount - amount,10));
+    }
+
+    ONT_Storage_Put(fromkey,I64toa(fromBalance - amount,10));
+    char * tokey = _concatKey(BalanceKey,to_acct);
+    char * tobalanceBytes = ONT_Storage_Get(tokey);
+    long long tobalance = 0;
+    if (arrayLen(tobalanceBytes) > 0)
+    {
+        tobalance = Atoi64(tobalanceBytes);
+    }
+    ONT_Storage_Put(tokey,I64toa(tobalance + amount,10));
+
+    notifyTransfer(from_acct,to_acct,amount);
+
+}
+
+char * allowance(owner, spender)
+{
+    char * key = _concatKey(_concatKey(ApproveKey,owner),spender);
+
+    return ONT_Storage_Get(key);
+
+}
+
+
+char* invoke(char * method,char * args)
+{
 
     if (strcmp(method ,"init")==0 )
     {
-            return init();
+        return init();
     }
     if (strcmp(method, "name")==0)
     {
@@ -241,7 +342,30 @@ char* invoke(char * method,char * args){
 
         return transfer(fromAddr, toAddr,amount);
     }
+    if (strcmp(method, "approve") == 0)
+    {
+        char * owner = ONT_ReadStringParam(args);
+        char * spender = ONT_ReadStringParam(args);
+        long long amount = ONT_ReadInt64Param(args);
 
+        return approve(owner,spender,amount);
+    }
+    if (strcmp(method, "transferFrom") == 0)
+    {
+        char * spender = ONT_ReadStringParam(args);
+        char * from_acct = ONT_ReadStringParam(args);
+        char * to_acct = ONT_ReadStringParam(args);
+        long long amount = ONT_ReadInt64Param(args);
+
+        return transferFrom(spender, from_acct, to_acct,amount);
+    }
+    if (strcmp(method, "allowance") == 0)
+    {
+        char * owner = ONT_ReadStringParam(args);
+        char * spender = ONT_ReadStringParam(args);
+
+        return allowance(owner, spender);
+    }
 
     return "false";
 }

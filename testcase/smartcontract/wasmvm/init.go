@@ -6,16 +6,17 @@ var filePath = "/home/zhoupw/work/go/src/github.com/ontio/ontology-test/test_dat
 
 func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestWasmAddTest1", TestWasmAddTest1)
-	testframework.TFramework.RegTestCase("TestWasmOEP4", TestWasmOEP4)
-	testframework.TFramework.RegTestCase("TestCallWasmOEP4", TestWasmCallOEP4)
-	//testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
-	//testframework.TFramework.RegTestCase("TestWasmTransfer", TestWasmTransfer)
-	testframework.TFramework.RegTestCase("TestWasmAddressTest", TestWasmAddressTest)
-	testframework.TFramework.RegTestCase("TestWasmCallAddressTest", TestWasmCallAddressTest)
-	testframework.TFramework.RegTestCase("TestWasmCallAddressTest3", TestWasmCallAddressTest3)
+	//testframework.TFramework.RegTestCase("TestWasmOEP4", TestWasmOEP4)
+	//testframework.TFramework.RegTestCase("TestStrarr", TestStrarr)
+	//testframework.TFramework.RegTestCase("TestCallWasmOEP4", TestWasmCallOEP4)
+	//
+	//testframework.TFramework.RegTestCase("TestWasmAddressTest", TestWasmAddressTest)
+	//testframework.TFramework.RegTestCase("TestWasmCallAddressTest", TestWasmCallAddressTest)
+	//testframework.TFramework.RegTestCase("TestWasmCallAddressTest3", TestWasmCallAddressTest3)
 
 	//testframework.TFramework.RegTestCase("TestFloat", TestFloat)
-
+	//testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
+	//testframework.TFramework.RegTestCase("TestWasmTransfer", TestWasmTransfer)
 
 
 	//testframework.TFramework.RegTestCase("TestWasmRawContract", TestWasmRawContract)
@@ -41,4 +42,7 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestBlockApi", TestHeaderApi)
 	////test transactionapi
 	//testframework.TFramework.RegTestCase("TestTransactionApi", TestTransactionApi)
+	//testframework.TFramework.RegTestCase("TestNewOEP4", TestNewOEP4)
+	//testframework.TFramework.RegTestCase("TestNewHello", TestNewHello)
+	testframework.TFramework.RegTestCase("TestRustOEP4", TestRustOEP4)
 }

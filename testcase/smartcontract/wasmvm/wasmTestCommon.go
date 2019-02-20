@@ -9,7 +9,6 @@ import (
 	sdk "github.com/ontio/ontology-go-sdk"
 	sdkcom "github.com/ontio/ontology-go-sdk/common"
 	"github.com/ontio/ontology-go-sdk/utils"
-	"github.com/ontio/ontology/smartcontract/service/wasmvm"
 )
 
 func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk.Account, wasmfile string,contractName string,version string) (common.Uint256, common.Address,error){
@@ -20,9 +19,9 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 
 	codeHash := common.ToHexString(code)
 
-	txHash, err :=  ctx.Ont.WasmVM.DeployWasmVMSmartContract(3597135678,ctx.GetGasPrice(), ctx.GetGasLimit(),
+	txHash, err :=  ctx.Ont.WasmVM.DeployWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
-		true,
+		byte(3),
 		codeHash,
 		contractName,
 		version,
@@ -52,18 +51,18 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 
 
 func InvokeWasmContract(ctx  *testframework.TestFrameworkContext, signer *sdk.Account, address common.Address,
-	methodName string, paramType wasmvm.ParamType, version byte, params []interface{})(common.Uint256, error){
+	methodName string,  version byte, params []interface{})(common.Uint256, error){
 
-	return ctx.Ont.WasmVM.InvokeWasmVMSmartContract(3597135678,ctx.GetGasPrice(), ctx.GetGasLimit(),
-		signer,address,methodName,paramType,version,params)
+	return ctx.Ont.WasmVM.InvokeWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		signer,address,methodName,version,params)
 
 }
 
 func PreExecWasmContract(ctx  *testframework.TestFrameworkContext,  address common.Address,
-	methodName string, paramType wasmvm.ParamType, version byte, params []interface{})(*sdkcom.PreExecResult,error){
+	methodName string, version byte, params []interface{})(*sdkcom.PreExecResult,error){
 
 
-		return ctx.Ont.WasmVM.PreExecInvokeNeoVMContract(3597135678,address,methodName,paramType,version,params)
+		return ctx.Ont.WasmVM.PreExecInvokeWasmVMContract(address,methodName,version,params)
 
 
 }
