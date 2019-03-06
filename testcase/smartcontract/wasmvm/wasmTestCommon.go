@@ -21,7 +21,6 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 
 	txHash, err :=  ctx.Ont.WasmVM.DeployWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
-		byte(3),
 		codeHash,
 		contractName,
 		version,
@@ -51,18 +50,18 @@ func DeployWasmJsonContract(ctx *testframework.TestFrameworkContext, signer *sdk
 
 
 func InvokeWasmContract(ctx  *testframework.TestFrameworkContext, signer *sdk.Account, address common.Address,
-	methodName string,  version byte, params []interface{})(common.Uint256, error){
+	methodName string, params []interface{})(common.Uint256, error){
 
 	return ctx.Ont.WasmVM.InvokeWasmVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
-		signer,address,methodName,version,params)
+		signer,address,methodName,params)
 
 }
 
 func PreExecWasmContract(ctx  *testframework.TestFrameworkContext,  address common.Address,
-	methodName string, version byte, params []interface{})(*sdkcom.PreExecResult,error){
+	methodName string,  params []interface{})(*sdkcom.PreExecResult,error){
 
 
-		return ctx.Ont.WasmVM.PreExecInvokeWasmVMContract(address,methodName,version,params)
+		return ctx.Ont.WasmVM.PreExecInvokeWasmVMContract(address,methodName,params)
 
 
 }

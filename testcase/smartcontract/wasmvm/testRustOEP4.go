@@ -19,6 +19,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 		fmt.Printf("deploy failed:%s\n", err.Error())
 		return false
 	}
+	ctx.LogInfo("==contract address is %s",addr.ToBase58())
 	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
 	if err != nil{
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
@@ -28,7 +29,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	res,err := PreExecWasmContract(ctx,
 		addr,
 		"name",
-		byte(1),[]interface{}{})
+		[]interface{}{})
 
 	if err != nil{
 		fmt.Printf("invoke name failed:%s\n",err.Error())
@@ -51,7 +52,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 		signer,
 		addr,
 		"initialize",
-		byte(1),[]interface{}{signer.Address})
+		[]interface{}{signer.Address})
 
 	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
@@ -78,7 +79,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	res,err = PreExecWasmContract(ctx,
 		addr,
 		"total_supply",
-		byte(1),[]interface{}{})
+		[]interface{}{})
 
 	if err != nil{
 		fmt.Printf("invoke name failed:%s\n",err.Error())
@@ -102,7 +103,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	res,err = PreExecWasmContract(ctx,
 		addr,
 		"balance_of",
-		byte(1),[]interface{}{signer.Address})
+		[]interface{}{signer.Address})
 
 	if err != nil{
 		fmt.Printf("invoke name failed:%s\n",err.Error())
@@ -138,7 +139,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 		signer,
 		addr,
 		"transfer",
-		byte(1),[]interface{}{signer.Address,account2.Address,amount})
+		[]interface{}{signer.Address,account2.Address,amount})
 
 	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
@@ -165,7 +166,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	res,err = PreExecWasmContract(ctx,
 		addr,
 		"balance_of",
-		byte(1),[]interface{}{signer.Address})
+		[]interface{}{signer.Address})
 
 	if err != nil{
 		fmt.Printf("invoke name failed:%s\n",err.Error())
@@ -190,7 +191,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	res,err = PreExecWasmContract(ctx,
 		addr,
 		"balance_of",
-		byte(1),[]interface{}{account2.Address})
+		[]interface{}{account2.Address})
 
 	if err != nil{
 		fmt.Printf("invoke name failed:%s\n",err.Error())

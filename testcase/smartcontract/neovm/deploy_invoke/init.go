@@ -9,7 +9,7 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("TestInvokeContract", TestInvokeContract)
 	//testframework.TFramework.RegTestCase("TestInvokeContractPy", TestInvokeContractPy)
 	//testframework.TFramework.RegTestCase("TestDomainSmartContractPy", TestDomainSmartContractPy)
-	//testframework.TFramework.RegTestCase("TestOEP4Py", TestOEP4Py)
+	testframework.TFramework.RegTestCase("TestOEP4Py", TestOEP4Py)
 	//testframework.TFramework.RegTestCase("TestGoTransfer", TestGoTransfer)
 	//testframework.TFramework.RegTestCase("TestAppcallgo", TestAppcallgo)
 	//testframework.TFramework.RegTestCase("Testscripthash", Testscripthash)
@@ -32,7 +32,7 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("DiceTest", DiceTest)
 
 
-	testframework.TFramework.RegTestCase("ONTDEXTest", DEXTest)
+	//testframework.TFramework.RegTestCase("ONTDEXTest", DEXTest)
 
 
 }

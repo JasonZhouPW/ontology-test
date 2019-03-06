@@ -44,5 +44,8 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestTransactionApi", TestTransactionApi)
 	//testframework.TFramework.RegTestCase("TestNewOEP4", TestNewOEP4)
 	//testframework.TFramework.RegTestCase("TestNewHello", TestNewHello)
-	testframework.TFramework.RegTestCase("TestRustOEP4", TestRustOEP4)
+
+	//rust contracts
+	//testframework.TFramework.RegTestCase("TestRustOEP4", TestRustOEP4)
+	testframework.TFramework.RegTestCase("TestRustApi", TestRustApi)
 }
