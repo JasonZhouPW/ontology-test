@@ -1,16 +1,14 @@
 package deploy_invoke
 
-
 import (
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"io/ioutil"
+	"time"
 )
 
 func TestGoTransfer(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/testTransfer.avm"
 
@@ -51,7 +49,7 @@ func TestGoTransfer(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestGoBytesEq WaitForGenerateBlock error: %s", err)
 		return false
 	}
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
 	ctx.LogInfo("============test TestGoTransfer start===========")
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
@@ -74,7 +72,7 @@ func TestGoTransfer(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
@@ -82,4 +80,3 @@ func TestGoTransfer(ctx *testframework.TestFrameworkContext) bool {
 
 	return true
 }
-

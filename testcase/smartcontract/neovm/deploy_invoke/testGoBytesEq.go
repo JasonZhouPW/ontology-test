@@ -1,15 +1,14 @@
 package deploy_invoke
 
 import (
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"io/ioutil"
+	"time"
 )
 
 func TestGoBytesEq(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/testBytesEq.avm"
 
@@ -73,14 +72,14 @@ func TestGoBytesEq(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("============test eq end===========")
 	ctx.LogInfo("============test eq2 start===========")
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	if err != nil{
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -105,13 +104,11 @@ func TestGoBytesEq(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
-
 	ctx.LogInfo("============test eq2 end===========")
-
 
 	return true
 }

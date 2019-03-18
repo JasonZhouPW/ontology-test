@@ -1,4 +1,5 @@
 package wasmvm
+
 //
 //import (
 //	"fmt"

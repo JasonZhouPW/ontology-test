@@ -1,18 +1,17 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
-	"fmt"
 	"bytes"
+	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/smartcontract/service/neovm"
+	"io/ioutil"
+	"time"
 )
 
 func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/OEP5Sample.avm"
 
@@ -84,61 +83,61 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 	}
 	ctx.LogInfo("-------------------call init end -----------------------")
 	ctx.LogInfo("--------------------testing Name--------------------")
-	obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"name", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"name", []interface{}{}})
 
-	name ,err := obj.Result.ToString()
-	if err != nil{
+	name, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("name is %s\n",name)
+	fmt.Printf("name is %s\n", name)
 	ctx.LogInfo("--------------------testing Name end--------------------")
 
 	ctx.LogInfo("--------------------testing symbol--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"symbol", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"symbol", []interface{}{}})
 
-	symbol ,err := obj.Result.ToString()
-	if err != nil{
+	symbol, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("symbol is %s\n",symbol)
+	fmt.Printf("symbol is %s\n", symbol)
 	ctx.LogInfo("--------------------testing symbol end--------------------")
 
 	ctx.LogInfo("--------------------testing queryAssetIDByIndex--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetIDByIndex", []interface{}{1}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetIDByIndex", []interface{}{1}})
 
-	assetID ,err := obj.Result.ToByteArray()
-	if err != nil{
+	assetID, err := obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("assetID is %s\n",common.ToHexString(assetID))
+	fmt.Printf("assetID is %s\n", common.ToHexString(assetID))
 	ctx.LogInfo("--------------------testing queryAssetIDByIndex end--------------------")
 
 	ctx.LogInfo("--------------------testing queryAssetCount--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetCount", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetCount", []interface{}{}})
 
-	assetCount ,err := obj.Result.ToInteger()
-	if err != nil{
+	assetCount, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("assetCount is %d\n",assetCount.Int64())
+	fmt.Printf("assetCount is %d\n", assetCount.Int64())
 	ctx.LogInfo("--------------------testing queryAssetCount end--------------------")
 
 	ctx.LogInfo("--------------------testing buy asset ---------------------------")
 
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	if err != nil{
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -146,7 +145,7 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"buyAsset", []interface{}{account2.Address[:],assetID}})
+		[]interface{}{"buyAsset", []interface{}{account2.Address[:], assetID}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -169,88 +168,85 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing buy end---------------------------")
 	ctx.LogInfo("--------------------testing ownerOf--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
 
-	owner ,err := obj.Result.ToByteArray()
-	if err != nil{
+	owner, err := obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	tmpaddr,err := common.AddressParseFromBytes(owner)
+	tmpaddr, err := common.AddressParseFromBytes(owner)
 
-	fmt.Printf("owner is %s\n",tmpaddr.ToBase58())
+	fmt.Printf("owner is %s\n", tmpaddr.ToBase58())
 	ctx.LogInfo("--------------------testing ownerOf end--------------------")
 
 	ctx.LogInfo("--------------------testing queryAssetByID--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
 
-	bs ,err := obj.Result.ToByteArray()
-	if err != nil{
+	bs, err := obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	bf := bytes.NewBuffer(bs)
-	stacks,err := neovm.DeserializeStackItem(bf)
-	if err != nil{
+	stacks, err := neovm.DeserializeStackItem(bf)
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
-	smap,err := stacks.GetMap()
-	if err != nil{
+	smap, err := stacks.GetMap()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-
-	id, err:= getMapvalue(smap, "ID").GetByteArray()
-	if err != nil{
+	id, err := getMapvalue(smap, "ID").GetByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 		return false
 	}
 
-	fmt.Printf("id is %s\n",common.ToHexString(id))
+	fmt.Printf("id is %s\n", common.ToHexString(id))
 
-	namebs, err:= getMapvalue(smap, "Name").GetByteArray()
-	if err != nil{
+	namebs, err := getMapvalue(smap, "Name").GetByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 		return false
 	}
-	fmt.Printf("name is %s\n",string(namebs))
+	fmt.Printf("name is %s\n", string(namebs))
 
-	image, err:= getMapvalue(smap, "Image").GetByteArray()
-	if err != nil{
+	image, err := getMapvalue(smap, "Image").GetByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 		return false
 	}
-	fmt.Printf("images is %s\n",image)
+	fmt.Printf("images is %s\n", image)
 
-	tp, err:= getMapvalue(smap, "Type").GetByteArray()
-	if err != nil{
+	tp, err := getMapvalue(smap, "Type").GetByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 		return false
 	}
-	fmt.Printf("type is %s\n",tp)
+	fmt.Printf("type is %s\n", tp)
 
 	ctx.LogInfo("--------------------testing queryAssetByID end--------------------")
 
-
-
 	ctx.LogInfo("--------------------testing transfer ---------------------------")
 
-	account3,err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
-	if err != nil{
+	account3, err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -258,7 +254,7 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{account3.Address[:],assetID}})
+		[]interface{}{"transfer", []interface{}{account3.Address[:], assetID}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -280,32 +276,31 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing transfer end---------------------------")
 	ctx.LogInfo("--------------------testing ownerOf--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
 
-	owner ,err = obj.Result.ToByteArray()
-	if err != nil{
+	owner, err = obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	tmpaddr,err = common.AddressParseFromBytes(owner)
+	tmpaddr, err = common.AddressParseFromBytes(owner)
 
-	fmt.Printf("owner is %s\n",tmpaddr.ToBase58())
+	fmt.Printf("owner is %s\n", tmpaddr.ToBase58())
 	ctx.LogInfo("--------------------testing ownerOf end--------------------")
-
 
 	ctx.LogInfo("--------------------testing approve ---------------------------")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account3,
 		codeAddress,
-		[]interface{}{"approve", []interface{}{account2.Address[:],assetID}})
+		[]interface{}{"approve", []interface{}{account2.Address[:], assetID}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -327,27 +322,25 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
-
 	ctx.LogInfo("--------------------testing approve end---------------------------")
 
-
 	ctx.LogInfo("--------------------testing getApproved--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"getApproved", []interface{}{assetID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"getApproved", []interface{}{assetID}})
 
-	owner ,err = obj.Result.ToByteArray()
-	if err != nil{
+	owner, err = obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	tmpaddr,err = common.AddressParseFromBytes(owner)
+	tmpaddr, err = common.AddressParseFromBytes(owner)
 
-	fmt.Printf("approved account: is %s\n",tmpaddr.ToBase58())
+	fmt.Printf("approved account: is %s\n", tmpaddr.ToBase58())
 	ctx.LogInfo("--------------------testing getApproved end--------------------")
 
 	ctx.LogInfo("--------------------testing takeOwnership  ---------------------------")
@@ -355,7 +348,7 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"takeOwnership", []interface{}{ account2.Address[:], assetID}})
+		[]interface{}{"takeOwnership", []interface{}{account2.Address[:], assetID}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -377,26 +370,25 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing transfer from  end---------------------------")
 
-
 	ctx.LogInfo("--------------------testing ownerOf--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{assetID}})
 
-	owner ,err = obj.Result.ToByteArray()
-	if err != nil{
+	owner, err = obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	tmpaddr,err = common.AddressParseFromBytes(owner)
+	tmpaddr, err = common.AddressParseFromBytes(owner)
 
-	fmt.Printf("owner is %s\n",tmpaddr.ToBase58())
+	fmt.Printf("owner is %s\n", tmpaddr.ToBase58())
 	ctx.LogInfo("--------------------testing ownerOf end--------------------")
 
 	ctx.LogInfo("--------------------testing withdraw  ---------------------------")
@@ -404,7 +396,7 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"withdraw", []interface{}{ signer.Address[:]}})
+		[]interface{}{"withdraw", []interface{}{signer.Address[:]}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -426,13 +418,11 @@ func TestOEP5Py(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing withdraw end---------------------------")
-
-
 
 	return true
 }

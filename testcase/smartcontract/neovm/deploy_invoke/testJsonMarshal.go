@@ -1,12 +1,12 @@
 package deploy_invoke
 
 import (
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
-	"github.com/ontio/ontology-test/testframework"
 	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func TestJsonMarshal(ctx *testframework.TestFrameworkContext) bool {
@@ -53,16 +53,16 @@ func TestJsonMarshal(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	ctx.LogInfo("--------------------testing jsonmarshal--------------------")
-	obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"testJson", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"testJson", []interface{}{}})
 
-	json ,err := obj.Result.ToString()
-	if err != nil{
+	json, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("jsonmarshal PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("jsonmarshal is %s\n",json)
+	fmt.Printf("jsonmarshal is %s\n", json)
 	ctx.LogInfo("--------------------testing jsonmarshal end--------------------")
 
 	return true

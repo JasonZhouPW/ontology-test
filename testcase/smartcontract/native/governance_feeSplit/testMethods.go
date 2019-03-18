@@ -135,7 +135,7 @@ func RegisterCandidate(ctx *testframework.TestFrameworkContext) bool {
 	if !ok {
 		return false
 	}
-	for i := 0;i < len(registerCandidateParam.PeerPubkey);i ++ {
+	for i := 0; i < len(registerCandidateParam.PeerPubkey); i++ {
 		ok = registerCandidate(ctx, user, registerCandidateParam.PeerPubkey[i], registerCandidateParam.InitPos[i])
 		if !ok {
 			return false
@@ -306,7 +306,7 @@ func QuitNode(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("json.Unmarshal failed %v", err)
 		return false
 	}
-	for i := 0;i < len(quitNodeParam.Path);i ++ {
+	for i := 0; i < len(quitNodeParam.Path); i++ {
 		user, ok := getAccount(ctx, quitNodeParam.Path[i])
 		if !ok {
 			return false

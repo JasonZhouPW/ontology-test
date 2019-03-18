@@ -1,19 +1,17 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 
-
-	account2,_ := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-
+	account2, _ := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
 
 	avmfile := "test_data/testStruct.avm"
 
@@ -24,7 +22,7 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 	codeHash := common.ToHexString(code)
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
-	fmt.Println("contract address:"+codeAddress.ToBase58())
+	fmt.Println("contract address:" + codeAddress.ToBase58())
 
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
 	signer, err := ctx.GetDefaultAccount()
@@ -55,11 +53,10 @@ func TestStructPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{signer.Address[:],account2.Address[:],500}})
+		[]interface{}{"transfer", []interface{}{signer.Address[:], account2.Address[:], 500}})
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}

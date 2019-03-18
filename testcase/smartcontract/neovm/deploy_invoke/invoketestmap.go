@@ -2,11 +2,11 @@ package deploy_invoke
 
 import (
 	"fmt"
-	"time"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func TestInvoketestmap(ctx *testframework.TestFrameworkContext) bool {
@@ -18,7 +18,6 @@ func TestInvoketestmap(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	codeHash := common.ToHexString(code)
-
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
 	fmt.Println(codeAddress)
@@ -50,7 +49,6 @@ func TestInvoketestmap(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-
 	ctx.LogInfo("--------------------testing add ---------------------------")
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
@@ -78,34 +76,30 @@ func TestInvoketestmap(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 
-		state :=notify.States.(string)
+		state := notify.States.(string)
 		ctx.LogInfo(state)
-		bs,_:=common.HexToBytes(state)
+		bs, _ := common.HexToBytes(state)
 		res := common.BigIntFromNeoBytes(bs)
 		ctx.LogInfo(res.Int64())
 	}
 
 	ctx.LogInfo("--------------------testing add end ---------------------------")
 
-
 	ctx.LogInfo("--------------------testing get--------------------")
-	obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"get", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"get", []interface{}{}})
 
-	balance ,err := obj.Result.ToInteger()
-	if err != nil{
+	balance, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("get is %d\n",balance.Int64())
+	fmt.Printf("get is %d\n", balance.Int64())
 	ctx.LogInfo("--------------------testing get end--------------------")
-
-
 
 	return true
 }
-

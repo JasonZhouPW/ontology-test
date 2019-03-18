@@ -128,7 +128,7 @@ func withdraw(ctx *testframework.TestFrameworkContext, user *account.Account, pe
 
 func withdrawOng(ctx *testframework.TestFrameworkContext, user *account.Account) bool {
 	params := &governance.WithdrawOngParam{
-		Address:        user.Address,
+		Address: user.Address,
 	}
 	contractAddress := utils.GovernanceContractAddress
 	method := "withdrawOng"

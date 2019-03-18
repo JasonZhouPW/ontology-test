@@ -1,16 +1,15 @@
 package deploy_invoke
 
 import (
+	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"io/ioutil"
-	"fmt"
+	"time"
 )
 
 func TestMulitparam(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/testMultiParam.avm"
 
@@ -57,7 +56,7 @@ func TestMulitparam(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"test", []interface{}{"a","b","c","d"}})
+		[]interface{}{"test", []interface{}{"a", "b", "c", "d"}})
 	if err != nil {
 		ctx.LogError("TestMulitparam InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -75,12 +74,11 @@ func TestMulitparam(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestMulitparam GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("============test  end===========")
-
 
 	return true
 }

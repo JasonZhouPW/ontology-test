@@ -3,16 +3,14 @@ package deploy_invoke
 import (
 	"time"
 
+	"fmt"
 	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
 	"github.com/ontio/ontology/common"
-	"fmt"
+	"io/ioutil"
 )
 
-
 func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/DomainAuction.avm"
 
@@ -23,8 +21,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	codeHash := common.ToHexString(code)
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
-	fmt.Println("contract address:"+codeAddress.ToBase58())
-
+	fmt.Println("contract address:" + codeAddress.ToBase58())
 
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
 	signer, err := ctx.GetDefaultAccount()
@@ -84,9 +81,8 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("%+v", notify)
 	invokeState := notify.States.(string)
 	ctx.LogInfo(invokeState)
-	s,_  :=common.HexToBytes(invokeState)
+	s, _ := common.HexToBytes(invokeState)
 	ctx.LogInfo("%s", s)
-
 
 	ctx.LogInfo("==============query begin=================")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
@@ -118,16 +114,15 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("%+v", notify)
 	invokeState = notify.States.(string)
 	ctx.LogInfo(invokeState)
-	addr,_ := common.AddressParseFromBytes(s)
+	addr, _ := common.AddressParseFromBytes(s)
 	ctx.LogInfo("%s", addr.ToBase58())
 	ctx.LogInfo("==============query end=================")
-
 
 	ctx.LogInfo("==============sell begin====================")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"sell", []interface{}{signer.Address[:], []byte("www.g.com"),500}})
+		[]interface{}{"sell", []interface{}{signer.Address[:], []byte("www.g.com"), 500}})
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -153,7 +148,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("%+v", notify)
 	invokeState = notify.States.(string)
 	ctx.LogInfo(invokeState)
-	s,_  =common.HexToBytes(invokeState)
+	s, _ = common.HexToBytes(invokeState)
 	ctx.LogInfo("%s", s)
 	ctx.LogInfo("==============sell end====================")
 
@@ -187,14 +182,14 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("%+v", notify)
 	invokeState = notify.States.(string)
 	ctx.LogInfo(invokeState)
-	s,_  =common.HexToBytes(invokeState)
-	addr,_ = common.AddressParseFromBytes(s)
+	s, _ = common.HexToBytes(invokeState)
+	addr, _ = common.AddressParseFromBytes(s)
 	ctx.LogInfo("%s", addr.ToBase58())
 	ctx.LogInfo("==============query end=================")
 
 	ctx.LogInfo("==============buy begin=================")
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	if err != nil{
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -208,7 +203,7 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"buy", []interface{}{account2.Address[:],[]byte("www.g.com"),500}})
+		[]interface{}{"buy", []interface{}{account2.Address[:], []byte("www.g.com"), 500}})
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -220,19 +215,17 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-
 	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
 	if err != nil {
 		ctx.LogError("TestInvokeSmartContract GetSmartContractEvent error:%s", err)
 		return false
 	}
 
-
 	if events.State == 0 {
 		ctx.LogError("TestInvokeSmartContract failed invoked exec state return 0")
 		return false
 	}
-	for _,notify := range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo(notify)
 
 		//invokeState := notify.States.(string)
@@ -241,15 +234,13 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 		//ctx.LogInfo("%s", s)
 	}
 
-
 	ctx.LogInfo("==============buy end=================")
-
 
 	ctx.LogInfo("==============done start=================")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"done", []interface{}{signer.Address[:],[]byte("www.g.com")}})
+		[]interface{}{"done", []interface{}{signer.Address[:], []byte("www.g.com")}})
 	if err != nil {
 		ctx.LogError("TestDomainSmartContract InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -266,30 +257,26 @@ func TestDomainSmartContractPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-
 	if events.State == 0 {
 		ctx.LogError("TestInvokeSmartContract failed invoked exec state return 0")
 		return false
 	}
-	for _,notify := range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo(notify)
 
-		switch notify.States.(type){
+		switch notify.States.(type) {
 		case []interface{}:
 			ctx.LogInfo(notify.States)
 		case interface{}:
 			invokeState := notify.States.(string)
 			ctx.LogInfo(invokeState)
-			s,_  :=common.HexToBytes(invokeState)
+			s, _ := common.HexToBytes(invokeState)
 			ctx.LogInfo("%s", s)
 		}
 
 	}
 
-
-
 	ctx.LogInfo("==============done end=================")
-
 
 	return true
 }

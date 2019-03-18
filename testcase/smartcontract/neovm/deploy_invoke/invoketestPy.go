@@ -1,11 +1,11 @@
 package deploy_invoke
 
 import (
+	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
 	"io/ioutil"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"fmt"
 	"time"
 )
 
@@ -18,7 +18,6 @@ func TestInvokeContractPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 	codeHash := common.ToHexString(code)
-
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
 	fmt.Println(codeAddress)
@@ -52,11 +51,11 @@ func TestInvokeContractPy(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress,  []interface{}{ 1,2,3,4})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{1, 2, 3, 4})
 
 	fmt.Println(obj)
-	bs ,err := obj.Result.ToInteger()
-	if err != nil{
+	bs, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestLottery PrepareInvokeContract 1 error:%s", err)
 
 		return false
@@ -68,9 +67,7 @@ func TestInvokeContractPy(ctx *testframework.TestFrameworkContext) bool {
 	//
 	//	return false
 	//}
-	fmt.Printf("total supply is %d\n",bs)
-
-
+	fmt.Printf("total supply is %d\n", bs)
 
 	return true
 }

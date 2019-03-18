@@ -28,6 +28,7 @@ func init() {
 	//vm.TestVM()
 	smartcontract.TestSmartContract()
 }
+
 //
 //func BeforeTestCase(ctx *testframework.TestFrameworkContext) {
 //	defAccount, err := ctx.GetDefaultAccount()

@@ -1,11 +1,11 @@
 package deploy_invoke
 
 import (
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
@@ -51,8 +51,8 @@ func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
 	}
 
 	ctx.LogInfo("============test transfer===========")
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	if err != nil{
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -60,7 +60,7 @@ func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{signer.Address[:], account2.Address[:],500}})
+		[]interface{}{"transfer", []interface{}{signer.Address[:], account2.Address[:], 500}})
 	if err != nil {
 		ctx.LogError("TestOEP4Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -78,7 +78,7 @@ func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
@@ -89,7 +89,7 @@ func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"dynamicTransfer", []interface{}{"1b86175747d0c1490d5b48b20b10584e378ed947","transfer",signer.Address[:], account2.Address[:],60000000000}})
+		[]interface{}{"dynamicTransfer", []interface{}{"1b86175747d0c1490d5b48b20b10584e378ed947", "transfer", signer.Address[:], account2.Address[:], 60000000000}})
 	if err != nil {
 		ctx.LogError("TestOEP4Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -107,7 +107,7 @@ func TestAppcall(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 

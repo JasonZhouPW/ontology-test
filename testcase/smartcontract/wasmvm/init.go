@@ -18,7 +18,6 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestWasmIntFlow", TestWasmIntFlow)
 	//testframework.TFramework.RegTestCase("TestWasmTransfer", TestWasmTransfer)
 
-
 	//testframework.TFramework.RegTestCase("TestWasmRawContract", TestWasmRawContract)
 	//
 	//testframework.TFramework.RegTestCase("TestCallWasmJsonContract", TestCallWasmJsonContract)
@@ -46,6 +45,11 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestNewHello", TestNewHello)
 
 	//rust contracts
+	//testframework.TFramework.RegTestCase("TestOEP4C", TestOEP4C)
 	//testframework.TFramework.RegTestCase("TestRustOEP4", TestRustOEP4)
-	testframework.TFramework.RegTestCase("TestRustApi", TestRustApi)
+	testframework.TFramework.RegTestCase("TestCWasmAPI", TestCWasmAPI)
+	//testframework.TFramework.RegTestCase("TestCWasmAPI2", TestCWasmAPI2)
+	//testframework.TFramework.RegTestCase("TestRustOEP4Performance", TestRustOEP4Performance)
+	//testframework.TFramework.RegTestCase("TestCOEP4", TestCOEP4)
+	//testframework.TFramework.RegTestCase("TestRustApi", TestRustApi)
 }

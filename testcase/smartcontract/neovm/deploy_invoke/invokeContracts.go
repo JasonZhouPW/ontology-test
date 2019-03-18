@@ -1,10 +1,10 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
 	"time"
 )
 
@@ -28,30 +28,30 @@ func TestContractsAPI(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestContractsAPI GetDefaultAccount error:%s", err)
 		return false
 	}
-/*	ctx.LogInfo("-------------------deploy start ---------------------------")
-	_, err = ctx.Ont.NeoVM.DeployNeoVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
-		signer,
-		true,
-		codeHash,
-		"TestOEP5Py",
-		"1.0",
-		"",
-		"",
-		"",
-	)
+	/*	ctx.LogInfo("-------------------deploy start ---------------------------")
+		_, err = ctx.Ont.NeoVM.DeployNeoVMSmartContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+			signer,
+			true,
+			codeHash,
+			"TestOEP5Py",
+			"1.0",
+			"",
+			"",
+			"",
+		)
 
-	if err != nil {
-		ctx.LogError("TestContractsAPI DeploySmartContract error: %s", err)
-	}
+		if err != nil {
+			ctx.LogError("TestContractsAPI DeploySmartContract error: %s", err)
+		}
 
-	//WaitForGenerateBlock
-	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
-	if err != nil {
-		ctx.LogError("TestContractsAPI WaitForGenerateBlock error: %s", err)
-		return false
-	}
+		//WaitForGenerateBlock
+		_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
+		if err != nil {
+			ctx.LogError("TestContractsAPI WaitForGenerateBlock error: %s", err)
+			return false
+		}
 
-	ctx.LogInfo("-------------------deploy end ---------------------------")*/
+		ctx.LogInfo("-------------------deploy end ---------------------------")*/
 	ctx.LogInfo("-------------------call destroy start -----------------------")
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,

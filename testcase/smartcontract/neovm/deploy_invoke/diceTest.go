@@ -1,12 +1,12 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
-	"io/ioutil"
 	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func DiceTest(ctx *testframework.TestFrameworkContext) bool {
@@ -25,9 +25,8 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
 	ctx.LogInfo("=====CodeAddress base58===%s", codeAddress.ToBase58())
 	signer, err := ctx.GetDefaultAccount()
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	account3,err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
-
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	account3, err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
 
 	ctx.LogInfo("=================Deploy===============================")
 
@@ -63,7 +62,7 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err := ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"invest", []interface{}{account2.Address[:],2000000000000}})
+		[]interface{}{"invest", []interface{}{account2.Address[:], 2000000000000}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -85,69 +84,67 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("Dice failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing invest end--------------------")
 
-
 	ctx.LogInfo("--------------------testing poolBalance --------------------")
-	obj, err :=ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err := obj.Result.ToInteger()
-	if err != nil{
+	balance, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("poolBalance is %d\n",balance)
+	fmt.Printf("poolBalance is %d\n", balance)
 	ctx.LogInfo("--------------------testing poolBalance end--------------------")
 
 	ctx.LogInfo("--------------------testing totalInvestorCount --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"totalInvestorCount", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"totalInvestorCount", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("totalInvestorCount is %d\n",balance)
+	fmt.Printf("totalInvestorCount is %d\n", balance)
 	ctx.LogInfo("--------------------testing totalInvestorCount end--------------------")
 
 	ctx.LogInfo("--------------------testing totalInvests --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"totalInvests", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"totalInvests", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("totalInvests is %d\n",balance)
+	fmt.Printf("totalInvests is %d\n", balance)
 	ctx.LogInfo("--------------------testing totalInvests end--------------------")
-
 
 	ctx.LogInfo("--------------------testing placeBet--------------------")
 
@@ -160,11 +157,11 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account3,
 		codeAddress,
-		[]interface{}{"placeBet", []interface{}{account3.Address[:],1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,
-			1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,
-			1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,
-			1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,
-			1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1000000000}})
+		[]interface{}{"placeBet", []interface{}{account3.Address[:], 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000,
+			1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000,
+			1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000,
+			1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000,
+			1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000, 1000000000}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -186,68 +183,67 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("Dice failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing placeBet end--------------------")
 
 	ctx.LogInfo("--------------------testing balanceOf --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account3.Address[:]}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account3.Address[:]}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("balanceOf is %d\n",balance)
+	fmt.Printf("balanceOf is %d\n", balance)
 	ctx.LogInfo("--------------------testing balanceOf end--------------------")
 
 	ctx.LogInfo("--------------------testing poolBalance --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("poolBalance is %d\n",balance)
+	fmt.Printf("poolBalance is %d\n", balance)
 	ctx.LogInfo("--------------------testing poolBalance end--------------------")
 
 	ctx.LogInfo("--------------------testing queryInvest --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryInvest", []interface{}{account2.Address[:]}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryInvest", []interface{}{account2.Address[:]}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("queryInvest is %d\n",balance)
+	fmt.Printf("queryInvest is %d\n", balance)
 	ctx.LogInfo("--------------------testing queryInvest end--------------------")
-
 
 	ctx.LogInfo("--------------------testing quitInvest--------------------")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
@@ -275,47 +271,47 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("Dice failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing quitInvest end--------------------")
 
 	ctx.LogInfo("--------------------testing poolBalance --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"poolBalance", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("poolBalance is %d\n",balance)
+	fmt.Printf("poolBalance is %d\n", balance)
 	ctx.LogInfo("--------------------testing poolBalance end--------------------")
 
 	ctx.LogInfo("--------------------testing balanceOf --------------------")
-	obj, err =ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
 	if err != nil {
 		ctx.LogError("Dice NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("Dice PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
 	//
-	fmt.Printf("balanceOf acct2 is %d\n",balance)
+	fmt.Printf("balanceOf acct2 is %d\n", balance)
 	ctx.LogInfo("--------------------testing balanceOf end--------------------")
 
 	ctx.LogInfo("--------------------testing withdraw--------------------")
@@ -344,11 +340,10 @@ func DiceTest(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("Dice failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing quitInvest end--------------------")
-
 
 	return true
 }

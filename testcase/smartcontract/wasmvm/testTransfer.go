@@ -1,4 +1,5 @@
 package wasmvm
+
 //
 //import (
 //	"github.com/ontio/ontology-test/testframework"

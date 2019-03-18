@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
-	testFile := filePath + "/" + "rustOEP4.wasm"
+func TestOEP4C(ctx *testframework.TestFrameworkContext) bool {
+	testFile := filePath + "/" + "OEP4C.wasm"
 	signer, _ := ctx.GetDefaultAccount()
 	timeoutSec := 30 * time.Second
 	txhash, addr, err := DeployWasmJsonContract(ctx, signer, testFile, "testContract", "1")
@@ -22,31 +22,12 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
-	//ctx.LogInfo("=====================invoke name==============================")
-	//res, err := PreExecWasmContract(ctx,
-	//	addr,
-	//	"name",
-	//	[]interface{}{})
-	//
-	//if err != nil {
-	//	fmt.Printf("invoke name failed:%s\n", err.Error())
-	//	return false
-	//}
-	//
-	//bs, err := res.Result.ToByteArray()
-	//
-	//fmt.Printf("res is %v\n", bs)
-	//
-	//tmp, err := serialization.ReadString(bytes.NewBuffer(bs))
-	//fmt.Printf("return is %v\n", tmp)
-	//
-	//ctx.LogInfo("=====================invoke name end==============================")
 
 	ctx.LogInfo("=====================invoke init==============================")
 	txhash, err = InvokeWasmContract(ctx,
 		signer,
 		addr,
-		"initialize",
+		"init",
 		[]interface{}{signer.Address})
 
 	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
@@ -70,33 +51,10 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	}
 	ctx.LogInfo("=====================invoke init end==============================")
 
-	//ctx.LogInfo("=====================invoke totalSupply==============================")
-	//res, err = PreExecWasmContract(ctx,
-	//	addr,
-	//	"total_supply",
-	//	[]interface{}{})
-	//
-	//if err != nil {
-	//	fmt.Printf("invoke name failed:%s\n", err.Error())
-	//	return false
-	//}
-	//
-	//bs, err = res.Result.ToByteArray()
-	//
-	//fmt.Printf("res is %v\n", bs)
-	//
-	//total, err := common.Uint256ParseFromBytes(bs)
-	//if err != nil {
-	//	fmt.Printf("error is %s\n", err.Error())
-	//}
-	//fmt.Printf("totalSupply is %d\n", binary.LittleEndian.Uint64(total[:8]))
-	//
-	//ctx.LogInfo("=====================invoke totalSupply end==============================")
-
 	ctx.LogInfo("=====================invoke balanceOf==============================")
 	res, err := PreExecWasmContract(ctx,
 		addr,
-		"balance_of",
+		"balance",
 		[]interface{}{signer.Address})
 
 	if err != nil {
@@ -110,29 +68,18 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 
 	//tmp ,err = serialization.ReadString(bytes.NewBuffer(bs))
 	//balance := binary.LittleEndian.Uint32(bs)
-	//balance, err := common.Uint256ParseFromBytes(bs)
-	//if err != nil {
-	//	fmt.Printf("error is %s\n", err.Error())
-	//}
+
 	fmt.Printf("balance of %s is %d\n", signer.Address.ToBase58(), binary.LittleEndian.Uint64(bs))
 
 	ctx.LogInfo("=====================invoke balanceOf end==============================")
 
 	ctx.LogInfo("=====================invoke transfer==============================")
-	//amountbs := make([]byte, 8)
-	//
-	//binary.LittleEndian.PutUint64(amountbs, uint64(500))
-	//parambs := make([]byte, 32)
-	//copy(parambs[:16], amountbs)
-	//fmt.Printf("parambs %v\n", parambs)
-	//
-	//amount, _ := common.Uint256ParseFromBytes(parambs)
 
 	txhash, err = InvokeWasmContract(ctx,
 		signer,
 		addr,
 		"transfer",
-		[]interface{}{signer.Address, account2.Address,  uint64(500)})
+		[]interface{}{signer.Address, account2.Address, uint64(500)})
 
 	_, err = ctx.Ont.WaitForGenerateBlock(timeoutSec)
 	if err != nil {
@@ -158,7 +105,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("=====================invoke balanceOf==============================")
 	res, err = PreExecWasmContract(ctx,
 		addr,
-		"balance_of",
+		"balance",
 		[]interface{}{signer.Address})
 
 	if err != nil {
@@ -172,10 +119,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 
 	//tmp ,err = serialization.ReadString(bytes.NewBuffer(bs))
 	//balance := binary.LittleEndian.Uint32(bs)
-	//balance, err = common.Uint256ParseFromBytes(bs)
-	//if err != nil {
-	//	fmt.Printf("error is %s\n", err.Error())
-	//}
+
 	fmt.Printf("balance of %s is %d\n", signer.Address.ToBase58(), binary.LittleEndian.Uint64(bs))
 
 	ctx.LogInfo("=====================invoke balanceOf end==============================")
@@ -183,7 +127,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 	ctx.LogInfo("=====================invoke balanceOf==============================")
 	res, err = PreExecWasmContract(ctx,
 		addr,
-		"balance_of",
+		"balance",
 		[]interface{}{account2.Address})
 
 	if err != nil {
@@ -197,10 +141,7 @@ func TestRustOEP4(ctx *testframework.TestFrameworkContext) bool {
 
 	//tmp ,err = serialization.ReadString(bytes.NewBuffer(bs))
 	//balance := binary.LittleEndian.Uint32(bs)
-	//balance, err = common.Uint256ParseFromBytes(bs)
-	//if err != nil {
-	//	fmt.Printf("error is %s\n", err.Error())
-	//}
+
 	fmt.Printf("balance of %s is %d\n", account2.Address.ToBase58(), binary.LittleEndian.Uint64(bs))
 
 	ctx.LogInfo("=====================invoke balanceOf end==============================")

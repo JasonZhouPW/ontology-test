@@ -1,19 +1,18 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
-	"fmt"
 	"bytes"
+	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
 	"github.com/ontio/ontology/smartcontract/service/neovm"
+	"io/ioutil"
 	"strconv"
+	"time"
 )
 
 func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/PandaFighting.avm"
 
@@ -85,45 +84,45 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 	}
 	ctx.LogInfo("-------------------call init end -----------------------")
 	ctx.LogInfo("--------------------testing Name--------------------")
-	obj,err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"name", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"name", []interface{}{}})
 
-	name ,err := obj.Result.ToString()
-	if err != nil{
+	name, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("name is %s\n",name)
+	fmt.Printf("name is %s\n", name)
 	ctx.LogInfo("--------------------testing Name end--------------------")
 
 	ctx.LogInfo("--------------------testing symbol--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"symbol", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"symbol", []interface{}{}})
 
-	symbol ,err := obj.Result.ToString()
-	if err != nil{
+	symbol, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("symbol is %s\n",symbol)
+	fmt.Printf("symbol is %s\n", symbol)
 	ctx.LogInfo("--------------------testing symbol end--------------------")
 
 	ctx.LogInfo("--------------------testing queryAssetCount--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetCount", []interface{}{}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetCount", []interface{}{}})
 
-	assetCount ,err := obj.Result.ToInteger()
-	if err != nil{
+	assetCount, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("assetCount is %d\n",assetCount.Int64())
+	fmt.Printf("assetCount is %d\n", assetCount.Int64())
 	ctx.LogInfo("--------------------testing queryAssetCount end--------------------")
-	account2,err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
-	if err != nil{
+	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -155,7 +154,7 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 	ctx.LogInfo("--------------------testing buy end---------------------------")
@@ -285,20 +284,17 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 	//}
 
 	ctx.LogInfo("--------------------testing balanceOf--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
 
-	balance ,err := obj.Result.ToInteger()
-	if err != nil{
+	balance, err := obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("assetID is %d\n",balance.Int64())
+	fmt.Printf("assetID is %d\n", balance.Int64())
 	ctx.LogInfo("--------------------testing balanceOf end--------------------")
-
-
-
 
 	ctx.LogInfo("--------------------testing buy bamboo ---------------------------")
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
@@ -327,117 +323,114 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing buy bamboo end ---------------------------")
 
-	for i := 1 ;i <= int(balance.Int64());i++{
+	for i := 1; i <= int(balance.Int64()); i++ {
 		ctx.LogInfo("-------------user asset " + strconv.Itoa(i) + " -----------")
 		ctx.LogInfo("--------------------testing getUserAssetID--------------------")
-		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"getUserAssetID", []interface{}{account2.Address[:], i}})
+		obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"getUserAssetID", []interface{}{account2.Address[:], i}})
 
-		assetID ,err := obj.Result.ToByteArray()
-		if err != nil{
+		assetID, err := obj.Result.ToByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
-		fmt.Printf("assetID is %s\n",common.ToHexString(assetID))
+		fmt.Printf("assetID is %s\n", common.ToHexString(assetID))
 		ctx.LogInfo("--------------------testing getUserAssetID end--------------------")
 
-
 		ctx.LogInfo("--------------------testing queryAssetByID--------------------")
-		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
+		obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
 
-		bs ,err := obj.Result.ToByteArray()
-		if err != nil{
+		bs, err := obj.Result.ToByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
 		bf := bytes.NewBuffer(bs)
-		stacks,err := neovm.DeserializeStackItem(bf)
-		if err != nil{
+		stacks, err := neovm.DeserializeStackItem(bf)
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
-		smap,err := stacks.GetMap()
-		if err != nil{
+		smap, err := stacks.GetMap()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
-
-		id, err:= getMapvalue(smap, "ID").GetByteArray()
-		if err != nil{
+		id, err := getMapvalue(smap, "ID").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
 
-		fmt.Printf("id is %s\n",common.ToHexString(id))
+		fmt.Printf("id is %s\n", common.ToHexString(id))
 
-		namebs, err:= getMapvalue(smap, "Name").GetByteArray()
-		if err != nil{
+		namebs, err := getMapvalue(smap, "Name").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("name is %s\n",string(namebs))
+		fmt.Printf("name is %s\n", string(namebs))
 
-		image, err:= getMapvalue(smap, "Image").GetByteArray()
-		if err != nil{
+		image, err := getMapvalue(smap, "Image").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("images is %s\n",image)
+		fmt.Printf("images is %s\n", image)
 
-		tp, err:= getMapvalue(smap, "Type").GetByteArray()
-		if err != nil{
+		tp, err := getMapvalue(smap, "Type").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("type is %s\n",tp)
+		fmt.Printf("type is %s\n", tp)
 
-		level, err:= getMapvalue(smap, "Lv").GetBigInteger()
-		if err != nil{
+		level, err := getMapvalue(smap, "Lv").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("level is %d\n",level)
+		fmt.Printf("level is %d\n", level)
 
-		exp, err:= getMapvalue(smap, "Exp").GetBigInteger()
-		if err != nil{
+		exp, err := getMapvalue(smap, "Exp").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("exp is %d\n",exp)
+		fmt.Printf("exp is %d\n", exp)
 
-		atk, err:= getMapvalue(smap, "Atk").GetBigInteger()
-		if err != nil{
+		atk, err := getMapvalue(smap, "Atk").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("atk is %d\n",atk)
+		fmt.Printf("atk is %d\n", atk)
 
-		hp, err:= getMapvalue(smap, "HP").GetBigInteger()
-		if err != nil{
+		hp, err := getMapvalue(smap, "HP").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("hp is %d\n",hp)
+		fmt.Printf("hp is %d\n", hp)
 
-		qty, err:= getMapvalue(smap, "Qty").GetByteArray()
-		if err != nil{
+		qty, err := getMapvalue(smap, "Qty").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("Qty is %s\n",qty)
-
+		fmt.Printf("Qty is %s\n", qty)
 
 		ctx.LogInfo("--------------------testing queryAssetByID end--------------------")
 
@@ -445,7 +438,7 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 			account2,
 			codeAddress,
-			[]interface{}{"adventure", []interface{}{assetID,1}})
+			[]interface{}{"adventure", []interface{}{assetID, 1}})
 		if err != nil {
 			ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 		}
@@ -467,104 +460,101 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 			ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 			return false
 		}
-		for _,notify:= range events.Notify{
+		for _, notify := range events.Notify {
 			ctx.LogInfo("%+v", notify)
 		}
 
 		ctx.LogInfo("--------------------testing adventure end--------------------")
 
 		ctx.LogInfo("--------------------testing queryAssetByID after adventure--------------------")
-		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
+		obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
 
-		bs ,err = obj.Result.ToByteArray()
-		if err != nil{
+		bs, err = obj.Result.ToByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
 		bf = bytes.NewBuffer(bs)
-		stacks,err = neovm.DeserializeStackItem(bf)
-		if err != nil{
+		stacks, err = neovm.DeserializeStackItem(bf)
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
-		smap,err = stacks.GetMap()
-		if err != nil{
+		smap, err = stacks.GetMap()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
-
-		id, err= getMapvalue(smap, "ID").GetByteArray()
-		if err != nil{
+		id, err = getMapvalue(smap, "ID").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
 
-		fmt.Printf("id is %s\n",common.ToHexString(id))
+		fmt.Printf("id is %s\n", common.ToHexString(id))
 
-		namebs, err= getMapvalue(smap, "Name").GetByteArray()
-		if err != nil{
+		namebs, err = getMapvalue(smap, "Name").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("name is %s\n",string(namebs))
+		fmt.Printf("name is %s\n", string(namebs))
 
-		image, err= getMapvalue(smap, "Image").GetByteArray()
-		if err != nil{
+		image, err = getMapvalue(smap, "Image").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("images is %s\n",image)
+		fmt.Printf("images is %s\n", image)
 
-		tp, err= getMapvalue(smap, "Type").GetByteArray()
-		if err != nil{
+		tp, err = getMapvalue(smap, "Type").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("type is %s\n",tp)
+		fmt.Printf("type is %s\n", tp)
 
-		level, err= getMapvalue(smap, "Lv").GetBigInteger()
-		if err != nil{
+		level, err = getMapvalue(smap, "Lv").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("level is %d\n",level)
+		fmt.Printf("level is %d\n", level)
 
-		exp, err= getMapvalue(smap, "Exp").GetBigInteger()
-		if err != nil{
+		exp, err = getMapvalue(smap, "Exp").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("exp is %d\n",exp)
+		fmt.Printf("exp is %d\n", exp)
 
-		atk, err= getMapvalue(smap, "Atk").GetBigInteger()
-		if err != nil{
+		atk, err = getMapvalue(smap, "Atk").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("atk is %d\n",atk)
+		fmt.Printf("atk is %d\n", atk)
 
-		hp, err= getMapvalue(smap, "HP").GetBigInteger()
-		if err != nil{
+		hp, err = getMapvalue(smap, "HP").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("hp is %d\n",hp)
+		fmt.Printf("hp is %d\n", hp)
 
-		qty, err= getMapvalue(smap, "Qty").GetByteArray()
-		if err != nil{
+		qty, err = getMapvalue(smap, "Qty").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("Qty is %s\n",qty)
-
+		fmt.Printf("Qty is %s\n", qty)
 
 		ctx.LogInfo("--------------------testing queryAssetByID after adventure end--------------------")
-
 
 		ctx.LogInfo("--------------------testing feedPanda --------------------")
 		txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
@@ -592,115 +582,108 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 			ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 			return false
 		}
-		for _,notify:= range events.Notify{
+		for _, notify := range events.Notify {
 			ctx.LogInfo("%+v", notify)
 		}
 
 		ctx.LogInfo("--------------------testing feedPanda end--------------------")
 
-
 		ctx.LogInfo("--------------------testing queryAssetByID after feed--------------------")
-		obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
+		obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"queryAssetByID", []interface{}{assetID}})
 
-		bs ,err = obj.Result.ToByteArray()
-		if err != nil{
+		bs, err = obj.Result.ToByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
 		bf = bytes.NewBuffer(bs)
-		stacks,err = neovm.DeserializeStackItem(bf)
-		if err != nil{
+		stacks, err = neovm.DeserializeStackItem(bf)
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
-		smap,err = stacks.GetMap()
-		if err != nil{
+		smap, err = stacks.GetMap()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 			return false
 		}
 
-
-		id, err= getMapvalue(smap, "ID").GetByteArray()
-		if err != nil{
+		id, err = getMapvalue(smap, "ID").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
 
-		fmt.Printf("id is %s\n",common.ToHexString(id))
+		fmt.Printf("id is %s\n", common.ToHexString(id))
 
-		namebs, err= getMapvalue(smap, "Name").GetByteArray()
-		if err != nil{
+		namebs, err = getMapvalue(smap, "Name").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("name is %s\n",string(namebs))
+		fmt.Printf("name is %s\n", string(namebs))
 
-		image, err= getMapvalue(smap, "Image").GetByteArray()
-		if err != nil{
+		image, err = getMapvalue(smap, "Image").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("images is %s\n",image)
+		fmt.Printf("images is %s\n", image)
 
-		tp, err= getMapvalue(smap, "Type").GetByteArray()
-		if err != nil{
+		tp, err = getMapvalue(smap, "Type").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("type is %s\n",tp)
+		fmt.Printf("type is %s\n", tp)
 
-		level, err= getMapvalue(smap, "Lv").GetBigInteger()
-		if err != nil{
+		level, err = getMapvalue(smap, "Lv").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("level is %d\n",level)
+		fmt.Printf("level is %d\n", level)
 
-		exp, err= getMapvalue(smap, "Exp").GetBigInteger()
-		if err != nil{
+		exp, err = getMapvalue(smap, "Exp").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("exp is %d\n",exp)
+		fmt.Printf("exp is %d\n", exp)
 
-		atk, err= getMapvalue(smap, "Atk").GetBigInteger()
-		if err != nil{
+		atk, err = getMapvalue(smap, "Atk").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("atk is %d\n",atk)
+		fmt.Printf("atk is %d\n", atk)
 
-		hp, err= getMapvalue(smap, "HP").GetBigInteger()
-		if err != nil{
+		hp, err = getMapvalue(smap, "HP").GetBigInteger()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("hp is %d\n",hp)
+		fmt.Printf("hp is %d\n", hp)
 
-		qty, err= getMapvalue(smap, "Qty").GetByteArray()
-		if err != nil{
+		qty, err = getMapvalue(smap, "Qty").GetByteArray()
+		if err != nil {
 			ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 			return false
 		}
-		fmt.Printf("Qty is %s\n",qty)
-
+		fmt.Printf("Qty is %s\n", qty)
 
 		ctx.LogInfo("--------------------testing queryAssetByID after feed end--------------------")
 
-
-
-
 	}
-
 
 	ctx.LogInfo("--------------------testing transfer ---------------------------")
 
-	account3,err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
-	if err != nil{
+	account3, err := ctx.GetAccount("AK98G45DhmPXg4TFPG1KjftvkEaHbU8SHM")
+	if err != nil {
 		ctx.LogError("get account AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb failed")
 		return false
 	}
@@ -710,7 +693,7 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{account3.Address[:],firstID}})
+		[]interface{}{"transfer", []interface{}{account3.Address[:], firstID}})
 	if err != nil {
 		ctx.LogError("TestOEP5Py InvokeNeoVMSmartContract error: %s", err)
 	}
@@ -732,43 +715,40 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 		ctx.LogError("TestOEP5Py failed invoked exec state return 0")
 		return false
 	}
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
 
 	ctx.LogInfo("--------------------testing transfer end---------------------------")
 
-
-
-
 	ctx.LogInfo("--------------------testing ownerOf--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{firstID}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"ownerOf", []interface{}{firstID}})
 
-	owner ,err := obj.Result.ToByteArray()
-	if err != nil{
+	owner, err := obj.Result.ToByteArray()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	tmpaddr,err := common.AddressParseFromBytes(owner)
+	tmpaddr, err := common.AddressParseFromBytes(owner)
 
-	fmt.Printf("owner is %s\n",tmpaddr.ToBase58())
+	fmt.Printf("owner is %s\n", tmpaddr.ToBase58())
 	ctx.LogInfo("--------------------testing ownerOf end--------------------")
 
 	ctx.LogInfo("--------------------testing balanceOf after transfer--------------------")
-	obj,err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"balanceOf", []interface{}{account2.Address[:]}})
 
-	balance ,err = obj.Result.ToInteger()
-	if err != nil{
+	balance, err = obj.Result.ToInteger()
+	if err != nil {
 		ctx.LogError("TestOEP5Py PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	fmt.Printf("assetID is %d\n",balance.Int64())
+	fmt.Printf("assetID is %d\n", balance.Int64())
 	ctx.LogInfo("--------------------testing balanceOf after transfer end--------------------")
-	for i := 1 ;i <= int(balance.Int64());i++ {
+	for i := 1; i <= int(balance.Int64()); i++ {
 		ctx.LogInfo("-------------user asset " + strconv.Itoa(i) + " -----------")
 		ctx.LogInfo("--------------------testing getUserAssetID--------------------")
 		obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"getUserAssetID", []interface{}{account2.Address[:], i}})
@@ -783,8 +763,6 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 		fmt.Printf("assetID is %s\n", common.ToHexString(assetID))
 		ctx.LogInfo("--------------------testing getUserAssetID end--------------------")
 	}
-
-
 
 	//
 	//
@@ -918,8 +896,6 @@ func TestPandaFighting(ctx *testframework.TestFrameworkContext) bool {
 	//}
 	//
 	//ctx.LogInfo("--------------------testing withdraw end---------------------------")
-
-
 
 	return true
 }

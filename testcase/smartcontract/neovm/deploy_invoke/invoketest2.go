@@ -1,4 +1,5 @@
 package deploy_invoke
+
 //
 //import (
 //	"github.com/ontio/ontology-test/testframework"

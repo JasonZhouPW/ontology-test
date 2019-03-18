@@ -1,16 +1,15 @@
 package deploy_invoke
 
 import (
-	"github.com/ontio/ontology-test/testframework"
-	"io/ioutil"
-	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
+	"github.com/ontio/ontology-test/testframework"
+	"github.com/ontio/ontology/common"
+	"io/ioutil"
+	"time"
 )
 
 func TestSerialize(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/TestSerialize.avm"
 
@@ -22,7 +21,7 @@ func TestSerialize(ctx *testframework.TestFrameworkContext) bool {
 	codeHash := common.ToHexString(code)
 
 	codeAddress, _ := utils.GetContractAddress(codeHash)
-	fmt.Println("contract address:"+codeAddress.ToBase58())
+	fmt.Println("contract address:" + codeAddress.ToBase58())
 
 	ctx.LogInfo("=====CodeAddress===%s", codeAddress.ToHexString())
 	signer, err := ctx.GetDefaultAccount()
@@ -82,11 +81,9 @@ func TestSerialize(ctx *testframework.TestFrameworkContext) bool {
 	notify := events.Notify[0]
 	ctx.LogInfo("%+v", notify)
 	//invokeState := notify.States.(string)
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
-
-
 
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
@@ -116,11 +113,9 @@ func TestSerialize(ctx *testframework.TestFrameworkContext) bool {
 	notify = events.Notify[0]
 	ctx.LogInfo("%+v", notify)
 	//invokeState := notify.States.(string)
-	for _,notify:= range events.Notify{
+	for _, notify := range events.Notify {
 		ctx.LogInfo("%+v", notify)
 	}
-
-
 
 	return true
 }

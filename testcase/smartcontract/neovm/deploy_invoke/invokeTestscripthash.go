@@ -1,16 +1,15 @@
 package deploy_invoke
 
 import (
+	"fmt"
+	"github.com/ontio/ontology-go-sdk/utils"
 	"github.com/ontio/ontology-test/testframework"
 	"github.com/ontio/ontology/common"
-	"github.com/ontio/ontology-go-sdk/utils"
-	"time"
 	"io/ioutil"
-	"fmt"
+	"time"
 )
 
 func Testscripthash(ctx *testframework.TestFrameworkContext) bool {
-
 
 	avmfile := "test_data/toscripthash.avm"
 
@@ -52,33 +51,31 @@ func Testscripthash(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
-
-	obj, err :=ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"test", []interface{}{}})
+	obj, err := ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"test", []interface{}{}})
 	if err != nil {
 		ctx.LogError("Testscripthash NewNeoVMSInvokeTransaction error:%s", err)
 
 		return false
 	}
 
-	res ,err := obj.Result.ToString()
-	if err != nil{
+	res, err := obj.Result.ToString()
+	if err != nil {
 		ctx.LogError("Testscripthash PrepareInvokeContract error:%s", err)
 
 		return false
 	}
-	bs,err := common.HexToBytes(res)
-	if err != nil{
+	bs, err := common.HexToBytes(res)
+	if err != nil {
 		ctx.LogError("Testscripthash PrepareInvokeContract error:%s", err)
 
 		return false
 	}
 
-	add,err:=common.AddressParseFromBytes(bs)
-	if err != nil{
+	add, err := common.AddressParseFromBytes(bs)
+	if err != nil {
 		ctx.LogError("TestOEP4Py parse error:%s", err)
 	}
 	fmt.Println(add.ToBase58())
-
 
 	return true
 }
