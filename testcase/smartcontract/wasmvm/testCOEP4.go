@@ -8,7 +8,7 @@ import (
 )
 
 func TestOEP4C(ctx *testframework.TestFrameworkContext) bool {
-	testFile := filePath + "/" + "OEP4C.wasm"
+	testFile := filePath + "/" + "cOEP4.wasm"
 	signer, _ := ctx.GetDefaultAccount()
 	timeoutSec := 30 * time.Second
 	txhash, addr, err := DeployWasmJsonContract(ctx, signer, testFile, "testContract", "1")

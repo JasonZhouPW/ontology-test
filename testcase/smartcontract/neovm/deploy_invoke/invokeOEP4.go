@@ -303,6 +303,73 @@ func TestOEP4Py(ctx *testframework.TestFrameworkContext) bool {
 	fmt.Printf("allowance is %d\n", allowance)
 	ctx.LogInfo("--------------------testing allowance signer end--------------------")
 
+
+	ctx.LogInfo("--------------------testing approve to contract---------------------------")
+
+	acct5 ,_  := common.AddressFromBase58("APDP9D8c3PArh5uAiXyTVk5XowAW97wELf")
+
+	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
+		signer,
+		codeAddress,
+		[]interface{}{"approve", []interface{}{signer.Address[:], acct5[:], 6000000000000}})
+	if err != nil {
+		ctx.LogError("TestOEP4Py InvokeNeoVMSmartContract error: %s", err)
+	}
+
+	//WaitForGenerateBlock
+	_, err = ctx.Ont.WaitForGenerateBlock(30*time.Second, 1)
+	if err != nil {
+		ctx.LogError("TestOEP4Py WaitForGenerateBlock error: %s", err)
+		return false
+	}
+
+	//GetEventLog, to check the result of invoke
+	events, err = ctx.Ont.GetSmartContractEvent(txHash.ToHexString())
+	if err != nil {
+		ctx.LogError("TestOEP4Py GetSmartContractEvent error:%s", err)
+		return false
+	}
+	if events.State == 0 {
+		ctx.LogError("TestOEP4Py failed invoked exec state return 0")
+		return false
+	}
+	notify = events.Notify[0]
+	ctx.LogInfo("%+v", notify)
+	invokeState = notify.States.([]interface{})
+	ctx.LogInfo(invokeState)
+
+	method, _ = common.HexToBytes(invokeState[0].(string))
+	addFromTmp, _ = common.HexToBytes(invokeState[1].(string))
+	addFrom, _ = common.AddressParseFromBytes(addFromTmp)
+
+	addToTmp, _ = common.HexToBytes(invokeState[2].(string))
+	addTo, _ = common.AddressParseFromBytes(addToTmp)
+	tmp, _ = common.HexToBytes(invokeState[3].(string))
+	amount = common.BigIntFromNeoBytes(tmp)
+	ctx.LogInfo("states[method:%s,from:%s,to:%s,value:%d]", method, addFrom.ToBase58(), addTo.ToBase58(), amount.Int64())
+
+	ctx.LogInfo("--------------------testing approve end---------------------------")
+	ctx.LogInfo("--------------------testing allowance of acct5--------------------")
+	fmt.Printf("singer:%v\n", signer.Address[:])
+	fmt.Printf("acct5:%v\n", acct5[:])
+	obj, err = ctx.Ont.NeoVM.PreExecInvokeNeoVMContract(codeAddress, []interface{}{"allowance", []interface{}{signer.Address[:], acct5[:]}})
+	if err != nil {
+		ctx.LogError("TestOEP4Py NewNeoVMSInvokeTransaction error:%s", err)
+
+		return false
+	}
+
+	allowance, err = obj.Result.ToInteger()
+	if err != nil {
+		ctx.LogError("TestLottery PrepareInvokeContract error:%s", err)
+
+		return false
+	}
+
+	fmt.Printf("allowance is %d\n", allowance)
+	ctx.LogInfo("--------------------testing allowance signer end--------------------")
+
+
 	ctx.LogInfo("--------------------testing transfer from ---------------------------")
 
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
