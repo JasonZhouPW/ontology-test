@@ -306,7 +306,7 @@ func TestOEP4Py(ctx *testframework.TestFrameworkContext) bool {
 
 	ctx.LogInfo("--------------------testing approve to contract---------------------------")
 
-	acct5 ,_  := common.AddressFromBase58("APDP9D8c3PArh5uAiXyTVk5XowAW97wELf")
+	acct5 ,_  := common.AddressFromBase58("ASNFJ3cxYrgrLnWPaMFWam2QSpUQrqJ9ue")
 
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
