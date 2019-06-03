@@ -45,7 +45,11 @@ func TestWasmVM() {
 	//testframework.TFramework.RegTestCase("TestNewHello", TestNewHello)
 
 	//rust contracts
-	testframework.TFramework.RegTestCase("TestOEP4C", TestOEP4C)
+	//testframework.TFramework.RegTestCase("TestOEP4C", TestOEP4C)
+	testframework.TFramework.RegTestCase("TestRedEnvlope", TestRedEnvlope)
+	//testframework.TFramework.RegTestCase("TestOEP5", TestOEP5C)
+	//testframework.TFramework.RegTestCase("TestOEP7", TestOEP7C)
+	//testframework.TFramework.RegTestCase("Testclass", Testclass)
 	//testframework.TFramework.RegTestCase("TestRustOEP4", TestRustOEP4)
 	//testframework.TFramework.RegTestCase("TestCWasmAPI", TestCWasmAPI)
 	//testframework.TFramework.RegTestCase("TestCWasmAPI2", TestCWasmAPI2)

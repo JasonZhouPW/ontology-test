@@ -28,6 +28,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	signer, err := ctx.GetDefaultAccount()
 	account2, err := ctx.GetAccount("AS3SCXw8GKTEeXpdwVw7EcC4rqSebFYpfb")
 	account4, err := ctx.GetAccount("ALerVnMj3eNk9xe8BnQJtoWvwGmY3x4KMi")
+	accountOrg,_ := ctx.GetAccount("AUyHN4iVcVFAKxAa18EryG9zNAB4tYXUt6")
 
 	priceMultiple := 1000000000
 	ctx.LogInfo("=================Deploy===============================")
@@ -97,7 +98,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account2,
 		codeAddress,
-		[]interface{}{"addOrder", []interface{}{account2.Address[:], 1, 10 * priceMultiple, 1, 2 * priceMultiple,account4.Address[:],account4.Address[:]}})
+		[]interface{}{"addOrder", []interface{}{account2.Address[:], 1, 10 * priceMultiple, 1, 2 * priceMultiple,account4.Address[:],accountOrg.Address[:]}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}
@@ -190,7 +191,7 @@ func DEXTest(ctx *testframework.TestFrameworkContext) bool {
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		account3,
 		codeAddress,
-		[]interface{}{"addOrder", []interface{}{account3.Address[:], 1, 200 * priceMultiple, 0, 2 * priceMultiple,account4.Address[:],account4.Address[:]}})
+		[]interface{}{"addOrder", []interface{}{account3.Address[:], 1, 200 * priceMultiple, 0, 2 * priceMultiple,account4.Address[:],accountOrg.Address[:]}})
 	if err != nil {
 		ctx.LogError("Dice invest error: %s", err)
 	}

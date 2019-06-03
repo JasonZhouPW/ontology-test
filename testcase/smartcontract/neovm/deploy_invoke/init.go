@@ -32,9 +32,12 @@ func TestDeployInvoke() {
 	//testframework.TFramework.RegTestCase("DiceTest", DiceTest)
 
 	//testframework.TFramework.RegTestCase("ONTDEXTest", DEXTest)
+	//testframework.TFramework.RegTestCase("TestMultisig", TestMultisig)
 	//testframework.TFramework.RegTestCase("DEXvoteTest", DEXvoteTest)
 	//testframework.TFramework.RegTestCase("TestOEP4Performance", TestOEP4Performance)
-	testframework.TFramework.RegTestCase("DEXOep8Test", DEXOep8Test)
+	//testframework.TFramework.RegTestCase("DEXOep8Test", DEXOep8Test)
+	testframework.TFramework.RegTestCase("TestONS", TestONS)
+
 
 
 }

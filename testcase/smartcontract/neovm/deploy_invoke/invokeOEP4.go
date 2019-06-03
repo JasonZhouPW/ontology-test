@@ -161,10 +161,11 @@ func TestOEP4Py(ctx *testframework.TestFrameworkContext) bool {
 		return false
 	}
 
+
 	txHash, err = ctx.Ont.NeoVM.InvokeNeoVMContract(ctx.GetGasPrice(), ctx.GetGasLimit(),
 		signer,
 		codeAddress,
-		[]interface{}{"transfer", []interface{}{signer.Address[:], tmpaddr[:], 10000000000000}})
+		[]interface{}{"transfer", []interface{}{signer.Address[:], tmpaddr[:], 10000000000000,}})
 	if err != nil {
 		ctx.LogError("TestOEP4Py InvokeNeoVMSmartContract error: %s", err)
 	}
